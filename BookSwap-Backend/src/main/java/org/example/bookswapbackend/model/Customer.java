@@ -14,16 +14,23 @@ import java.util.Collection;
 @Table(name="users")
 public class Customer implements UserDetails{
 
-	@Id
-	@Getter
-	private String user_id;
+	public enum UserType {
+		ADMIN,
+		USER
+	}
 
-	@Column(nullable=false)
-	private String name;
+	@Id
+	private String username;
 
 	@Column(nullable=false)
 	@Length(min=8, message="Password must be greater than or equal to 8 characters")
 	private String password;
+
+	@Getter
+	private String location;
+
+	@Getter
+	private UserType user_type;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -37,6 +44,6 @@ public class Customer implements UserDetails{
 
 	@Override
 	public String getUsername() {
-		return this.name;
+		return this.username;
 	}
 }
