@@ -1,49 +1,52 @@
 package org.example.bookswapbackend.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 
+@Getter
 @Setter
 @Entity
-@Table(name="users")
-public class Customer implements UserDetails{
+@Table(name = "customers")
+public class Customer implements UserDetails {
 
-	public enum UserType {
-		ADMIN,
-		USER
-	}
+    public enum UserType {
+        ADMIN, USER
+    }
 
-	@Id
-	private String username;
+    @Id
+    @Size(min = 3, max = 50, message = "Username must be 3-50 characters")
+    private String username;
 
-	@Column(nullable=false)
-	@Length(min=8, message="Password must be greater than or equal to 8 characters")
-	private String password;
+    @NotNull
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    private String password;
 
-	@Getter
-	private String location;
+    private String location;
 
-	@Getter
-	private UserType user_type;
+    @Enumerated(EnumType.STRING)
+    @Column(name="`user_type`")
+    private UserType userType;
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null; // Implement roles if needed
+    }
 
-	@Override
-	public String getPassword() {
-		return this.password;
-	}
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
-	@Override
-	public String getUsername() {
-		return this.username;
-	}
+    @Override
+    public String getUsername() {
+        return username;
+    }
+
 }

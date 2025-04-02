@@ -1,20 +1,29 @@
 package org.example.bookswapbackend.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @Entity
+@Table(name = "purchases")
 public class Purchase {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long purchase_id;
+    private Long id;
 
-    private Long book_id;
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
 
-    private Long user_id;
+    @ManyToOne
+    @JoinColumn(name = "customer_username", nullable = false)
+    private Customer customer;
 
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date purchased_at;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime purchasedAt = LocalDateTime.now();
 }

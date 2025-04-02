@@ -32,32 +32,39 @@ public class CustomerService {
     JwtUtils jwtUtils;
 
     public ResponseEntity<?> saveCustomer(Customer cust) {
-        if (cust.getUser_id() == null || cust.getUser_id().isEmpty()) {
+        if (cust.getUsername() == null || cust.getUsername().isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("User ID must not be null or empty,"+cust.getUsername()+cust.getPassword()));
         }
-        Optional<Customer> o = custRepo.findById(cust.getUser_id());
+        Optional<Customer> o = custRepo.findById(cust.getUsername());
         if (o.isPresent()) {
             return ResponseEntity.badRequest().body(new MessageResponse("Username Already Exists"));
         }
         cust.setPassword(encoder.encode(cust.getPassword()));
         custRepo.save(cust);
-        String jwt = jwtUtils.generateJwtTokenUser(cust.getUser_id());
-        return ResponseEntity.ok(new JwtResponse(jwt, cust.getUser_id()));
+        String jwt = jwtUtils.generateJwtTokenUser(cust.getUsername());
+        return ResponseEntity.ok(new JwtResponse(jwt, cust.getUsername()));
     }
 
     public ResponseEntity<?> validateCustomer(LoginModel loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getUser_id(), loginRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
         Customer cust = (Customer) authentication.getPrincipal();
-        return ResponseEntity.ok(new JwtResponse(jwt, cust.getUser_id()));
+        return ResponseEntity.ok(new JwtResponse(jwt, cust.getUsername()));
     }
 
+    public ResponseEntity<?> getCustomerDetails(String username) {
+        Optional<Customer> obj = custRepo.findById(username);
+        if (obj.isPresent()) {
+            return ResponseEntity.ok(obj.get());
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Invalid Customer"));
+    }
 
     public ResponseEntity<?> changePassword(LoginModel u, String otp) {
         Customer cust = null;
-        Optional<Customer> obj = custRepo.findById(u.getUser_id());
+        Optional<Customer> obj = custRepo.findById(u.getUsername());
 
         if (obj.isPresent())
             cust = obj.get();
@@ -69,6 +76,17 @@ public class CustomerService {
             return ResponseEntity.ok(new MessageResponse("Successfully Changed the password!"));
         }
         return ResponseEntity.badRequest().body(new MessageResponse("Invalid OTP!"));
+    }
+
+    public ResponseEntity<?> updateCustomerDetails(Customer cust) {
+        Optional<Customer> obj = custRepo.findById(cust.getUsername());
+        if (obj.isPresent()) {
+            Customer c = obj.get();
+            c.setLocation(cust.getLocation());
+            custRepo.save(c);
+            return ResponseEntity.ok(new MessageResponse("Successfully Updated!"));
+        }
+        return ResponseEntity.badRequest().body(new MessageResponse("Invalid Customer"));
     }
 
 }

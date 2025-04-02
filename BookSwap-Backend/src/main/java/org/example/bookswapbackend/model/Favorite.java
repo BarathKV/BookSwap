@@ -4,21 +4,26 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-@Setter
 @Getter
+@Setter
 @Entity
+@Table(name = "favorites")
 public class Favorite {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long fav_id;
+    private Long id;
 
-    private String username;
-    private Long post_id;
+    @ManyToOne
+    @JoinColumn(name = "customer_username", nullable = false)
+    private Customer customer;
 
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date added_at;
+    @ManyToOne
+    @JoinColumn(name = "book_id", nullable = false)
+    private Book book;
 
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime addedAt = LocalDateTime.now();
 }

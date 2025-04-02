@@ -35,7 +35,12 @@ public class WebSecurityConfig {
 
         http.csrf(AbstractHttpConfigurer::disable);
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/cust/login").permitAll()
+                        .requestMatchers("/cust/signup").permitAll()
+                        .requestMatchers("/cust/test").permitAll()
+                        .requestMatchers("/cust/changePassword/**").permitAll()
+                        .anyRequest().authenticated());
         http.exceptionHandling(ex -> ex.authenticationEntryPoint(point))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         http.authenticationProvider(authenticationProvider());
