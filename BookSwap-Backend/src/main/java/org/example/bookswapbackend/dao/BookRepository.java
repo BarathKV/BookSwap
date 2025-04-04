@@ -1,0 +1,23 @@
+package org.example.bookswapbackend.dao;
+
+import org.example.bookswapbackend.model.Book;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+
+@Repository
+public interface BookRepository extends JpaRepository<Book, Long> {
+
+    @Query("SELECT b FROM Book b WHERE b.isbn = ?1")
+    Book findByIsbn(String isbn);
+
+    @Query("SELECT b FROM Book b WHERE LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%'))")
+    List<Book> findBooksByTitleLike(@Param("title") String title, Pageable pageable);
+
+    @Query("SELECT b FROM Book b WHERE LOWER(b.author) LIKE LOWER(CONCAT('%', :author, '%'))")
+    List<Book> findBooksByAuthorLike(@Param("author") String author, Pageable pageable);
+}

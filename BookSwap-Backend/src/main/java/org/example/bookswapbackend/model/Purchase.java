@@ -21,7 +21,7 @@ public class Purchase {
     private Book book;
 
     @ManyToOne
-    @JoinColumn(name = "customer_username", nullable = false)
+    @JoinColumn(name = "username", nullable = false)
     private Customer customer;
 
     @Column(nullable = false, updatable = false)

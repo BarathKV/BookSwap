@@ -12,46 +12,46 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin("*")
 //TODO: Change the RequestMapping to /v1/customer
-//@RequestMapping("/v1/customer")
+//@RequestMapping("api/v1/customer")
 @RequestMapping("/cust")
 public class CustomerController {
-	@Autowired
-	CustomerService custService;
-	@Autowired
-	JwtUtils jwtUtils;
-	
-	@GetMapping("/test")
-	public String testCustomer() {
-		return "It's OK";
-	}
+    @Autowired
+    CustomerService custService;
+    @Autowired
+    JwtUtils jwtUtils;
 
-	@PostMapping("/signup")
-	public ResponseEntity<?> saveCustomer(@RequestBody Customer cust) {
-		return custService.saveCustomer(cust);
-	}
+    @GetMapping("/test")
+    public String testCustomer() {
+        return "It's OK";
+    }
 
-	@PostMapping("/login")
-	public ResponseEntity<?> validateCustomer(@RequestBody LoginModel loginRequest) {
-		return custService.validateCustomer(loginRequest);
-	}
+    @PostMapping("/signup")
+    public ResponseEntity<?> saveCustomer(@RequestBody Customer cust) {
+        return custService.saveCustomer(cust);
+    }
 
-	@PutMapping("/changePassword/{otp}")
-	public ResponseEntity<?> changePassword(@RequestBody LoginModel u, @PathVariable("otp") String otp) {
-		return custService.changePassword(u, otp);
-	}
+    @PostMapping("/login")
+    public ResponseEntity<?> validateCustomer(@RequestBody LoginModel loginRequest) {
+        return custService.validateCustomer(loginRequest);
+    }
 
-	@PutMapping("/details")
-	public ResponseEntity<?> updateCustomer(@RequestBody Customer cust) {
-		return custService.updateCustomerDetails(cust);
-	}
+    @PutMapping("/changePassword/{otp}")
+    public ResponseEntity<?> changePassword(@RequestBody LoginModel u, @PathVariable("otp") String otp) {
+        return custService.changePassword(u, otp);
+    }
 
-	@GetMapping("/profile")
-	public ResponseEntity<?> getCustomerDetails(HttpServletRequest request) {
-		String token = request.getHeader("Authorization");
-		if (jwtUtils.validateJwtToken(token)) {
-			String username = jwtUtils.getUserNameFromJwtToken(token);
-			return custService.getCustomerDetails(username);
-		}
-		return ResponseEntity.badRequest().body("Invalid JWT token");
-	}
+    @PutMapping("/details")
+    public ResponseEntity<?> updateCustomer(@RequestBody Customer cust) {
+        return custService.updateCustomerDetails(cust);
+    }
+
+    @GetMapping("/profile")
+    public ResponseEntity<?> getCustomerDetails(HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring(7);
+        if (jwtUtils.validateJwtToken(token)) {
+            String username = jwtUtils.getUserNameFromJwtToken(token);
+            return custService.getCustomerDetails(username);
+        }
+        return ResponseEntity.badRequest().body("Invalid JWT token");
+    }
 }
