@@ -1,5 +1,6 @@
 package org.example.bookswapbackend.dao;
 
+import jakarta.validation.constraints.Size;
 import org.example.bookswapbackend.model.Book;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,12 +13,6 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    @Query("SELECT b FROM Book b WHERE b.isbn = ?1")
-    Book findByIsbn(String isbn);
-
-    @Query("SELECT b FROM Book b WHERE LOWER(b.title) LIKE LOWER(CONCAT('%', :title, '%'))")
-    List<Book> findBooksByTitleLike(@Param("title") String title, Pageable pageable);
-
-    @Query("SELECT b FROM Book b WHERE LOWER(b.author) LIKE LOWER(CONCAT('%', :author, '%'))")
-    List<Book> findBooksByAuthorLike(@Param("author") String author, Pageable pageable);
+    @Query("SELECT b FROM Book b WHERE b.isbn = :isbn")
+    Book findByIsbn(@Size(min = 13, max = 13, message = "ISBN must be exactly 13 characters") String isbn);
 }

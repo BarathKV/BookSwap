@@ -2,7 +2,7 @@ package org.example.bookswapbackend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.bookswapbackend.model.Customer;
-import org.example.bookswapbackend.model.LoginModel;
+import org.example.bookswapbackend.dto.LoginModel;
 import org.example.bookswapbackend.security.JwtUtils;
 import org.example.bookswapbackend.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;

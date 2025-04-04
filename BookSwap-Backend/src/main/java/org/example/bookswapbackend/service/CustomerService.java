@@ -2,9 +2,9 @@ package org.example.bookswapbackend.service;
 
 import org.example.bookswapbackend.dao.CustomerRepository;
 import org.example.bookswapbackend.model.Customer;
-import org.example.bookswapbackend.model.JwtResponse;
-import org.example.bookswapbackend.model.LoginModel;
-import org.example.bookswapbackend.model.MessageResponse;
+import org.example.bookswapbackend.dto.JwtResponse;
+import org.example.bookswapbackend.dto.LoginModel;
+import org.example.bookswapbackend.dto.MessageResponse;
 import org.example.bookswapbackend.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -24,23 +24,4 @@ public class BookController {
     public ResponseEntity<?> addBook(@RequestBody Book book) {
         return bookService.addBook(book);
     }
-
-    @GetMapping("/get/isbn/{isbn}")
-    public ResponseEntity<?> getBookByIsbn(@PathVariable String isbn) {
-        return bookService.getBookByIsbn(isbn);
-    }
-
-    @GetMapping("/get/title/{title}")
-    public ResponseEntity<?> getBookByTitle(@PathVariable String title,@RequestParam(defaultValue = "0") int page,
-                                            @RequestParam(defaultValue = "10") int size) {
-        return bookService.getBooksByTitle(title, page, size);
-    }
-
-    @GetMapping("/get/author/{author}")
-    public ResponseEntity<?> getBookByAuthor(@PathVariable String author,@RequestParam(defaultValue = "0") int page,
-                                             @RequestParam(defaultValue = "10") int size) {
-        return bookService.getBooksByAuthor(author, page, size);
-    }
-
-    //TODO: Add a method to get books by Location of the seller
 }

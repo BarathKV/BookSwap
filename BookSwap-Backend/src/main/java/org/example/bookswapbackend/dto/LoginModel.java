@@ -1,4 +1,4 @@
-package org.example.bookswapbackend.model;
+package org.example.bookswapbackend.dto;
 
 import lombok.Getter;
 import lombok.Setter;

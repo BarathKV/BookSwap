@@ -33,42 +33,8 @@ public class BookService {
         return ResponseEntity.ok(savedBook);
     }
 
-    public ResponseEntity<?> getBookByIsbn(String isbn) {
-        Optional<Book> book = Optional.ofNullable(bookRepo.findByIsbn(isbn));
-        if (book.isPresent()) {
-            return ResponseEntity.ok(book.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-    public ResponseEntity<?> getBooksByTitle(String title, int page, int size) {
-        if (title == null || title.isEmpty()) {
-            return ResponseEntity.badRequest().body("Book title must not be null or empty");
-        }
-        Pageable pageable = Pageable.ofSize(size).withPage(page);
-        List<Book> books = bookRepo.findBooksByTitleLike(title, pageable);
-        if (!books.isEmpty()) {
-            return ResponseEntity.ok(books);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
     public Book savebook(Book book) {
         return bookRepo.save(book);
     }
 
-    public ResponseEntity<?> getBooksByAuthor(String author, int page, int size) {
-        if (author == null || author.isEmpty()) {
-            return ResponseEntity.badRequest().body("Book author must not be null or empty");
-        }
-        Pageable pageable = Pageable.ofSize(size).withPage(page);
-        List<Book> books = bookRepo.findBooksByAuthorLike(author, pageable);
-        if (!books.isEmpty()) {
-            return ResponseEntity.ok(books);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 }

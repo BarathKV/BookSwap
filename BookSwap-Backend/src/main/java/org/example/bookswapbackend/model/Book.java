@@ -6,8 +6,6 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @Entity
@@ -17,7 +15,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long book_id;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     @Size(min = 1, message = "Title cannot be empty")
     private String title;
 
@@ -25,7 +23,7 @@ public class Book {
     @Size(min = 1, message = "Author cannot be empty")
     private String author;
 
-    @Column(unique = true,nullable = false)
+    @Column(unique = true, nullable = false)
     @Size(min = 13, max = 13, message = "ISBN must be exactly 13 characters")
     private String isbn;
 }
