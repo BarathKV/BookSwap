@@ -16,7 +16,7 @@ public class PurchaseController {
 
     @PostMapping("/buy")
     public ResponseEntity<?> buyBook(@RequestBody Purchase purchase) {
-        return purchaseService.buyBook(purchase);
+        return purchaseService.buyPost(purchase);
     }
 
     @GetMapping("/purchases")

@@ -11,8 +11,8 @@ import java.util.List;
 public class PurchaseService {
     PurchaseRepository purchaseRepo;
 
-    public ResponseEntity<?> buyBook(Purchase purchase) {
-        if (purchase.getBook() == null || purchase.getCustomer() == null) {
+    public ResponseEntity<?> buyPost(Purchase purchase) {
+        if (purchase.getPost() == null || purchase.getUser() == null) {
             return ResponseEntity.badRequest().body("Book and Customer must not be null");
         }
         Purchase savedPurchase = purchaseRepo.save(purchase);

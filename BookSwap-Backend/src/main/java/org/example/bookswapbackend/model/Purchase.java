@@ -3,6 +3,7 @@ package org.example.bookswapbackend.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -14,16 +15,20 @@ public class Purchase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "purchase_id", nullable = false, unique = true)
+    private Long purchaseId;
+
+    @OneToOne
+    @JoinColumn(name = "post", referencedColumnName = "post_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_post_purchase"))
+    private Post post;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", nullable = false)
-    private Book book;
+    @JoinColumn(name = "user", referencedColumnName = "username", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_user_purchase"))
+    private Customer user;
 
-    @ManyToOne
-    @JoinColumn(name = "username", nullable = false)
-    private Customer customer;
-
+    @CreationTimestamp
     @Column(nullable = false, updatable = false)
-    private LocalDateTime purchasedAt = LocalDateTime.now();
+    private LocalDateTime purchasedAt;
 }

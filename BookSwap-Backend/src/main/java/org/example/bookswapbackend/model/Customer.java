@@ -22,10 +22,12 @@ public class Customer implements UserDetails {
 
     @Id
     @Size(min = 3, max = 50, message = "Username must be 3-50 characters")
+    @Column(nullable = false, unique = true)
     private String username;
 
     @NotNull
     @Size(min = 8, message = "Password must be at least 8 characters")
+    @Column(nullable = false)
     private String password;
 
     private String location;
@@ -36,7 +38,7 @@ public class Customer implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null; // Implement roles if needed
+        return null;
     }
 
     @Override
@@ -48,5 +50,4 @@ public class Customer implements UserDetails {
     public String getUsername() {
         return username;
     }
-
 }

@@ -13,9 +13,10 @@ import lombok.Setter;
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long book_id;
+    @Column(name = "book_id", nullable = false, unique = true)
+    private Long bookId;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true)
     @Size(min = 1, message = "Title cannot be empty")
     private String title;
 
@@ -23,7 +24,7 @@ public class Book {
     @Size(min = 1, message = "Author cannot be empty")
     private String author;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false, unique = true, length = 13)
     @Size(min = 13, max = 13, message = "ISBN must be exactly 13 characters")
     private String isbn;
 }

@@ -1,8 +1,11 @@
 package org.example.bookswapbackend.service;
 
+import org.example.bookswapbackend.dao.PurchaseRepository;
 import org.example.bookswapbackend.dao.ReviewRepository;
+import org.example.bookswapbackend.model.Purchase;
 import org.example.bookswapbackend.model.Review;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +19,15 @@ public class ReviewService {
     @Autowired
     ReviewRepository reviewRepo;
 
+    @Autowired
+    PurchaseRepository purchaseRepo;
+
 
     public ResponseEntity<?> addReview(Review review) {
-        if(review.getPost_id() == null) {
+        if(review.getPost() == null) {
             return ResponseEntity.badRequest().body("Post must not be null");
         }
-        if(review.getCustomer() == null) {
+        if(review.getUser() == null) {
             return ResponseEntity.badRequest().body("User must not be null");
         }
         if(review.getWriter() == null) {
@@ -30,7 +36,11 @@ public class ReviewService {
         if(review.getStars() == null){
             return ResponseEntity.badRequest().body("Stars must not be null");
         }
-        Optional<Review> existingReview = Optional.ofNullable(reviewRepo.findByBookAndCustomer(review.getPost_id(), review.getCustomer()));
+        Optional<Purchase> ifpurchased = Optional.ofNullable(purchaseRepo.findByBuyerAndPost(review.getPost(), review.getUser()));
+        if(ifpurchased.isEmpty()) {
+            return ResponseEntity.badRequest().body("User has not purchased this book");
+        }
+        Optional<Review> existingReview = Optional.ofNullable(reviewRepo.findByBookAndCustomer(review.getPost(), review.getUser()));
         if(existingReview.isPresent()) {
             return ResponseEntity.badRequest().body("Review already exists");
         }
@@ -43,8 +53,8 @@ public class ReviewService {
             return ResponseEntity.badRequest().body("Customer ID must not be null");
         }
         Pageable pageable = PageRequest.of(page, size);
-        Optional<Review> review = Optional.ofNullable(reviewRepo.findByCustomer(customerId, pageable));
-        if(review.isPresent()) {
+        Page<Review> review = reviewRepo.findByCustomer(customerId, pageable);
+        if(review.hasContent()) {
             return ResponseEntity.ok(review);
         } else {
             return ResponseEntity.notFound().build();
@@ -56,8 +66,8 @@ public class ReviewService {
             return ResponseEntity.badRequest().body("Writer ID must not be null");
         }
         Pageable pageable = PageRequest.of(page, size);
-        Optional<Review> review = Optional.ofNullable(reviewRepo.findByWriter(writerId, pageable));
-        if(review.isPresent()) {
+        Page<Review> review = reviewRepo.findByWriter(writerId, pageable);
+        if(review.hasContent()) {
             return ResponseEntity.ok(review);
         } else {
             return ResponseEntity.notFound().build();

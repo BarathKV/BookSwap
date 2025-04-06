@@ -14,9 +14,9 @@ import org.springframework.stereotype.Repository;
 public interface PostRepository extends JpaRepository<Post,Long>, JpaSpecificationExecutor<Post> {
     @Query("SELECT new org.example.bookswapbackend.dto.PostDetails(b.title, b.author, b.isbn, p.condition, p.price, c.location, p.createdAt) " +
             "FROM Post p " +
-            "JOIN p.book_id b " +
-            "JOIN p.user_id c " +
-            "WHERE p.user_id.username = :userId")
+            "JOIN p.book b " +
+            "JOIN p.user c " +
+            "WHERE p.user.username = :userId")
     Page<PostDetails> findByUserId(String userId, Pageable pageable);
 
     @Query("SELECT COUNT(u) FROM Customer u WHERE u.username = :username")
@@ -24,36 +24,36 @@ public interface PostRepository extends JpaRepository<Post,Long>, JpaSpecificati
 
     @Query("SELECT new org.example.bookswapbackend.dto.PostDetails(b.title, b.author, b.isbn, p.condition, p.price, c.location, p.createdAt) " +
             "FROM Post p " +
-            "JOIN p.book_id b " +
-            "JOIN p.user_id c " +
+            "JOIN p.book b " +
+            "JOIN p.user c " +
             "ORDER BY p.createdAt DESC")
     Page<PostDetails> findRecent(Pageable pageable);
 
     @Query("SELECT new org.example.bookswapbackend.dto.PostDetails(b.title, b.author, b.isbn, p.condition, p.price, c.location, p.createdAt) " +
             "FROM Post p " +
-            "JOIN p.book_id b " +
-            "JOIN p.user_id c " +
+            "JOIN p.book b " +
+            "JOIN p.user c " +
             "WHERE b.title LIKE %:title%")
     Page<PostDetails> findByTitleContaining(String title, Pageable pageable);
 
     @Query("SELECT new org.example.bookswapbackend.dto.PostDetails(b.title, b.author, b.isbn, p.condition, p.price, c.location, p.createdAt) " +
             "FROM Post p " +
-            "JOIN p.book_id b " +
-            "JOIN p.user_id c " +
+            "JOIN p.book b " +
+            "JOIN p.user c " +
             "WHERE b.author LIKE %:userId%")
     Page<PostDetails> findByAuthorContaining(String userId, Pageable pageable);
 
     @Query("SELECT new org.example.bookswapbackend.dto.PostDetails(b.title, b.author, b.isbn, p.condition, p.price, c.location, p.createdAt) " +
             "FROM Post p " +
-            "JOIN p.book_id b " +
-            "JOIN p.user_id c " +
+            "JOIN p.book b " +
+            "JOIN p.user c " +
             "WHERE b.isbn = :isbn")
     Page<PostDetails> findByISBN(String isbn, Pageable pageable);
 
     @Query("SELECT new org.example.bookswapbackend.dto.PostDetails(b.title, b.author, b.isbn, p.condition, p.price, c.location, p.createdAt) " +
             "FROM Post p " +
-            "JOIN p.book_id b " +
-            "JOIN p.user_id c " +
+            "JOIN p.book b " +
+            "JOIN p.user c " +
             "WHERE c.location LIKE %:location%")
     Page<PostDetails> findByLocation(@Param("location") String location, Pageable pageable);
 

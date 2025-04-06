@@ -19,10 +19,10 @@ public class PostService {
     PostRepository postRepo;
 
     public ResponseEntity<?> addPost(Post post) {
-        if (post.getBook_id() == null) {
+        if (post.getBook() == null) {
             return ResponseEntity.badRequest().body("Book must not be null");
         }
-        if (post.getUser_id() == null) {
+        if (post.getUser() == null) {
             return ResponseEntity.badRequest().body("User must not be null");
         }
         if (post.getCondition() == null) {

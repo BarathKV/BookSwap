@@ -24,7 +24,7 @@ public class PostController {
     @PostMapping("/add")
     public ResponseEntity<?> addPost(Book book , Post post) {
         Book saved_book = bookService.savebook(book);
-        post.setBook_id(saved_book);
+        post.setBook(saved_book);
         return postService.addPost(post);
     }
 
