@@ -20,17 +20,17 @@ const Navbar = () => {
       <div className="hidden md:flex space-x-4">
         <a
           href="#"
-          className="px-4 py-2 rounded-full bg-purple-200 text-indigo-900 font-medium"
+          className="px-4 py-2 rounded-full bg-[#dfe2ff] text-indigo-900 font-medium"
         >
           Home
         </a>
-        <a href="#" className="px-4 py-2 rounded-full hover:bg-purple-200 hover:text-indigo-900 transition duration-300 ease-in-out">
+        <a href="#" className="px-4 py-2 rounded-full hover:bg-[#dfe2ff] hover:text-indigo-900 transition duration-300 ease-in-out">
           Wishlist
         </a>
-        <a href="#" className="px-4 py-2 rounded-full hover:bg-purple-200 hover:text-indigo-900 transition duration-300 ease-in-out">
+        <a href="#" className="px-4 py-2 rounded-full hover:bg-[#dfe2ff] hover:text-indigo-900 transition duration-300 ease-in-out">
           My Posts
         </a>
-        <a href="#" className="px-4 py-2 rounded-full hover:bg-purple-200 hover:text-indigo-900 transition duration-300 ease-in-out">
+        <a href="#" className="px-4 py-2 rounded-full hover:bg-[#dfe2ff] hover:text-indigo-900 transition duration-300 ease-in-out">
           Purchases
         </a>
       </div>

@@ -5,7 +5,7 @@ import BookCard from '../Components/BookCard';
 
 const Home = () => {
   return (
-    <div>
+    <div className='bg-[#eaecff]'>
       {/* Navbar Component */}
       <Navbar />
 
