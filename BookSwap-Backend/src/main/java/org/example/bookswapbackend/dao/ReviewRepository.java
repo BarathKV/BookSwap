@@ -20,4 +20,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("SELECT r FROM Review r WHERE r.writer = ?1")
     Page<Review> findByWriter(String writerId, Pageable pageable);
+
+    @Query("SELECT r FROM Review r WHERE r.post.postId = ?1")
+    Review findByPostId(int postId);
 }

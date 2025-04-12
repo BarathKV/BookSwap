@@ -24,4 +24,9 @@ public class BookController {
     public ResponseEntity<?> addBook(@RequestBody Book book) {
         return bookService.addBook(book);
     }
+
+    @GetMapping("/search/title/{title}")
+    public ResponseEntity<?> searchBookByTitle(@PathVariable String title) {
+        return bookService.searchBookByTitle(title);
+    }
 }

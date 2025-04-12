@@ -1,7 +1,6 @@
 package org.example.bookswapbackend.service;
 
 import org.example.bookswapbackend.dao.CustomerRepository;
-import org.example.bookswapbackend.model.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -17,9 +16,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Customer user = custRepo.findById(username)
+        return custRepo.findById(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
-
-        return user;
     }
 }

@@ -3,7 +3,6 @@ package org.example.bookswapbackend.service;
 import org.example.bookswapbackend.dao.BookRepository;
 import org.example.bookswapbackend.model.Book;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -37,4 +36,14 @@ public class BookService {
         return bookRepo.save(book);
     }
 
+    public ResponseEntity<?> searchBookByTitle(String title) {
+        if (title == null || title.isEmpty()) {
+            return ResponseEntity.badRequest().body("Book title must not be null or empty");
+        }
+        List<Book> book = bookRepo.findByTitleContaining(title.toLowerCase());
+        if (book == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(book);
+    }
 }

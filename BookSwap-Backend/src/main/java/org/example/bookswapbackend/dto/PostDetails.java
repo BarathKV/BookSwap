@@ -1,6 +1,5 @@
 package org.example.bookswapbackend.dto;
 
-import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.bookswapbackend.model.Post;

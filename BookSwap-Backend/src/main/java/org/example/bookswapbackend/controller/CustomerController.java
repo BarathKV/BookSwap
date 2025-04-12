@@ -22,7 +22,7 @@ public class CustomerController {
 
     @GetMapping("/test")
     public String testCustomer() {
-        return "It's OK";
+        return "Test cust";
     }
 
     @PostMapping("/signup")

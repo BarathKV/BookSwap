@@ -2,6 +2,9 @@ package org.example.bookswapbackend.service;
 
 import org.example.bookswapbackend.dao.PurchaseRepository;
 import org.example.bookswapbackend.model.Purchase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +12,8 @@ import java.util.List;
 
 @Service
 public class PurchaseService {
+
+    @Autowired
     PurchaseRepository purchaseRepo;
 
     public ResponseEntity<?> buyPost(Purchase purchase) {
@@ -19,11 +24,9 @@ public class PurchaseService {
         return ResponseEntity.ok(savedPurchase);
     }
 
-    public ResponseEntity<?> getAllPurchases(String customer) {
-        if (customer == null || customer.isEmpty()) {
-            return ResponseEntity.badRequest().body("Customer must not be null or empty");
-        }
-        List<Purchase> purchases = purchaseRepo.findByCustomerUsername(customer);
+    public ResponseEntity<?> getAllPurchases(String username, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        List<Purchase> purchases = purchaseRepo.findByCustomerUsername(username, pageable);
         if (purchases != null && !purchases.isEmpty()) {
             return ResponseEntity.ok(purchases);
         } else {

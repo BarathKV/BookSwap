@@ -1,6 +1,8 @@
 package org.example.bookswapbackend.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.example.bookswapbackend.model.Purchase;
+import org.example.bookswapbackend.security.JwtUtils;
 import org.example.bookswapbackend.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +16,24 @@ public class PurchaseController {
     @Autowired
     PurchaseService purchaseService;
 
+    @Autowired
+    JwtUtils jwtUtils;
+
     @PostMapping("/buy")
     public ResponseEntity<?> buyBook(@RequestBody Purchase purchase) {
         return purchaseService.buyPost(purchase);
     }
 
     @GetMapping("/purchases")
-    public ResponseEntity<?> getAllPurchases(@RequestParam String customer) {
-        return purchaseService.getAllPurchases(customer);
+    public ResponseEntity<?> getAllPurchases(HttpServletRequest request,
+                                             @RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "10") int size) {
+        String token = request.getHeader("Authorization").substring(7);
+        if (!jwtUtils.validateJwtToken(token)) {
+            return ResponseEntity.badRequest().body("Invalid JWT token");
+        }
+        String username = jwtUtils.getUserNameFromJwtToken(token);
+        return purchaseService.getAllPurchases(username,page,size);
     }
 
 }

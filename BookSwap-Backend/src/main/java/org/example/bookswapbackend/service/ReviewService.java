@@ -24,24 +24,24 @@ public class ReviewService {
 
 
     public ResponseEntity<?> addReview(Review review) {
-        if(review.getPost() == null) {
+        if (review.getPost() == null) {
             return ResponseEntity.badRequest().body("Post must not be null");
         }
-        if(review.getUser() == null) {
+        if (review.getUser() == null) {
             return ResponseEntity.badRequest().body("User must not be null");
         }
-        if(review.getWriter() == null) {
+        if (review.getWriter() == null) {
             return ResponseEntity.badRequest().body("Writer must not be null");
         }
-        if(review.getStars() == null){
+        if (review.getStars() == null) {
             return ResponseEntity.badRequest().body("Stars must not be null");
         }
-        Optional<Purchase> ifpurchased = Optional.ofNullable(purchaseRepo.findByBuyerAndPost(review.getPost(), review.getUser()));
-        if(ifpurchased.isEmpty()) {
+        Optional<Purchase> purchased = Optional.ofNullable(purchaseRepo.findByBuyerAndPost(review.getPost(), review.getUser()));
+        if (purchased.isEmpty()) {
             return ResponseEntity.badRequest().body("User has not purchased this book");
         }
         Optional<Review> existingReview = Optional.ofNullable(reviewRepo.findByBookAndCustomer(review.getPost(), review.getUser()));
-        if(existingReview.isPresent()) {
+        if (existingReview.isPresent()) {
             return ResponseEntity.badRequest().body("Review already exists");
         }
         Review savedReview = reviewRepo.save(review);
@@ -49,12 +49,12 @@ public class ReviewService {
     }
 
     public ResponseEntity<?> getReviewByCustomer(String customerId, int page, int size) {
-        if(customerId == null) {
+        if (customerId == null) {
             return ResponseEntity.badRequest().body("Customer ID must not be null");
         }
         Pageable pageable = PageRequest.of(page, size);
         Page<Review> review = reviewRepo.findByCustomer(customerId, pageable);
-        if(review.hasContent()) {
+        if (review.hasContent()) {
             return ResponseEntity.ok(review);
         } else {
             return ResponseEntity.notFound().build();
@@ -62,12 +62,24 @@ public class ReviewService {
     }
 
     public ResponseEntity<?> getReviewByWriter(String writerId, int page, int size) {
-        if(writerId == null) {
+        if (writerId == null) {
             return ResponseEntity.badRequest().body("Writer ID must not be null");
         }
         Pageable pageable = PageRequest.of(page, size);
         Page<Review> review = reviewRepo.findByWriter(writerId, pageable);
-        if(review.hasContent()) {
+        if (review.hasContent()) {
+            return ResponseEntity.ok(review);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<?> getReviewByPostId(int postId) {
+        if (postId == 0) {
+            return ResponseEntity.badRequest().body("Post ID must not be 0");
+        }
+        Optional<Review> review = Optional.ofNullable(reviewRepo.findByPostId(postId));
+        if (review.isPresent()) {
             return ResponseEntity.ok(review);
         } else {
             return ResponseEntity.notFound().build();

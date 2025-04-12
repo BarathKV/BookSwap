@@ -20,10 +20,15 @@ public class ReviewController {
         return reviewService.addReview(review);
     }
 
+    @GetMapping("/{post_id}")
+    public ResponseEntity<?> getReviewByPostId(@PathVariable int post_id) {
+        return reviewService.getReviewByPostId(post_id);
+    }
+
     @GetMapping("/cust/{customerId}")
     public ResponseEntity<?> getReviewByCustomer(@PathVariable String customerId,
-                                                @RequestParam(defaultValue = "0") int page,
-                                                @RequestParam(defaultValue = "10") int size) {
+                                                 @RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "10") int size) {
         return reviewService.getReviewByCustomer(customerId, page, size);
     }
 
