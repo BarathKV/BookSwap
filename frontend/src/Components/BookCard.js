@@ -1,0 +1,35 @@
+import React from 'react';
+
+const BookCard = () => {
+  const imageUrl =
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s';
+
+  return (
+    <div className=" w-[250px] bg-[#000959] rounded-lg shadow-md overflow-hidden ">
+      {/* Image Section */}
+      <img
+        src={imageUrl}
+        alt="Book Cover"
+        className="w-full h-64 object-cover"
+      />
+
+      {/* Content Section */}
+      <div className="p-4">
+        {/* Title and Author */}
+        <div className="flex justify-between items-center mb-2">
+          <div>
+            <h2 className="text-xl text-white font-bold">Boys tiger heart</h2>
+            <p className="text-[#acacac] text-sm">By Linda Coggin</p>
+          </div>
+
+          {/* "New" Label */}
+          <div className=" flex justify-center items-center bg-white text-[#000959] h-10 px-3 py-1 rounded-[12px] text-[15px] font-semibold">
+            New
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default BookCard;
