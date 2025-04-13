@@ -9,6 +9,7 @@ import MyBooks from './Pages/MyBooks';
 import AddBooks from './Pages/AddBooks';
 import Wishlist from './Pages/Wishlist';
 import MyPurchases from './Pages/MyPurchases';
+import Seller from './Pages/Seller';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path="/addbooks" element={<AddBooks />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/mypurchases" element={<MyPurchases />} />
+        <Route path="/seller" element={<Seller />} />
 
         
       </Routes>
