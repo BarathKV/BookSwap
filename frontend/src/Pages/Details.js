@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from '../Components/Navbar';
 
+
 const Details = () => {
     const imageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s';
 
