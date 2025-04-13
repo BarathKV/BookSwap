@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from '../Components/Navbar';
+import { Link } from "react-router-dom";
 
 
 const Details = () => {
@@ -70,9 +71,9 @@ const Details = () => {
                     <button className="bg-white h-10 w-full rounded-full text-[#000959] text-sm sm:text-base shadow-[1px_4px_4px_0_rgba(0,0,0,0.25)] transform transition duration-300 hover:scale-105">
                         Buy
                     </button>
-                    <button className="bg-white h-10 w-full rounded-full text-[#000959] text-sm sm:text-base shadow-[1px_4px_4px_0_rgba(0,0,0,0.25)] transform transition duration-300 hover:scale-105">
-                        Add to cart
-                    </button>
+                    <Link to="/wishlist" className="bg-white h-10 w-full rounded-full text-[#000959] text-sm sm:text-base shadow-[1px_4px_4px_0_rgba(0,0,0,0.25)] transform transition duration-300 hover:scale-105 flex justify-center items-center">
+                        <div>Wishlist it</div>
+                    </Link>
                 </div>
             </div>
         </div>

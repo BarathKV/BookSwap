@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // Import Link for navigation
 
 const WishlistCard = () => {
     const imageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s';
@@ -7,11 +8,13 @@ const WishlistCard = () => {
         <div className="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col sm:flex-row h-auto">
             {/* Book Cover Image - Left Side */}
             <div className="flex items-center justify-center w-full sm:w-[30%]">
-                <img
-                    src={imageUrl}
-                    alt="Book Cover"
-                    className="w-full h-auto sm:h-[250px] sm:w-auto object-cover p-4"
-                />
+                <Link to="/details"> {/* Wrap the image with Link */}
+                    <img
+                        src={imageUrl}
+                        alt="Book Cover"
+                        className="w-full h-auto sm:h-[250px] sm:w-auto object-cover p-4 cursor-pointer" // Add cursor-pointer for hover effect
+                    />
+                </Link>
             </div>
 
             {/* Book Details - Right Side */}

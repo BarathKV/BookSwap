@@ -9,7 +9,7 @@ const MyBooks= () =>{
               {/* Wrapper for Top Picks Section */}
       <div className="wrapper flex flex-col items-center">
         {/* Centered "Top Picks" Heading */}
-        <h1 className="text-[30px] py-6 ">My Books</h1>
+        <h1 className="text-[30px] py-6 font-bold">My Books</h1>
 
         {/* Responsive Grid for BookCard Components */}
         <div className="py-[20px] w-full flex justify-center">

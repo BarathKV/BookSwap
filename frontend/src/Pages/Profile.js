@@ -6,8 +6,8 @@ const Profile = () => {
     return (
         <div className="min-h-screen">
             <Navbar />
-            <div 
-                className="min-h-[calc(100vh-4rem)] bg-gray-100 flex items-center justify-center py-8 px-4 sm:px-8" 
+            <div
+                className="min-h-[calc(100vh-4rem)] bg-gray-100 flex items-center justify-center py-8 px-4 sm:px-8"
                 style={{
                     backgroundImage: `url(${require('../Assets/BG_Profile.png')})`,
                     backgroundSize: 'cover',
@@ -18,7 +18,7 @@ const Profile = () => {
             >
                 <div className="w-full max-w-2xl">
                     {/* Profile Card */}
-                    <div className="w-full bg-[#E7E9FF] rounded-xl overflow-hidden shadow-[1px_4px_4px_0_rgba(0,0,0,0.25)] mb-6">
+                    <div className="w-full bg-[#ffffff] rounded-xl overflow-hidden shadow-[1px_4px_4px_0_rgba(0,0,0,0.25)] mb-6">
                         <div className="p-6 sm:p-8">
                             {/* Profile Image */}
                             <div className="flex justify-center mb-2">
@@ -67,24 +67,38 @@ const Profile = () => {
                                 </div>
                             </div>
 
-                            {/* My Books Button (Centered) */}
-                            <div className="flex justify-center">
-                                <button className="bg-[#000959] transform transition duration-300 hover:scale-105 text-[#E7E9FF] font-medium py-2 px-6 rounded-lg shadow-md">
-                                   + Add Books
-                                </button>
+                            {/* Buttons - Add Books and Logout (Same Line) */}
+                            <div className="flex justify-center gap-4">
+                                <Link
+                                    to="/addbooks"
+                                    className="bg-[#000959] transform transition duration-300 hover:scale-105 text-[#E7E9FF] font-medium py-2 px-6 rounded-lg shadow-md inline-block text-center"
+                                >
+                                    + Add Books
+                                </Link>
+                                <Link
+                                    to="/login"
+                                    className="bg-red-500 transform transition duration-300 hover:scale-105 text-white font-medium py-2 px-6 rounded-lg shadow-md inline-block text-center"
+                                >
+                                    Logout
+                                </Link>
                             </div>
                         </div>
                     </div>
 
                     {/* Bottom Action Buttons */}
-                    
                     <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-                        <Link to="/mybooks" className="bg-[#E7E9FF] transform transition duration-300 hover:scale-105 text-[#000959] font-medium py-2 px-6 rounded-lg shadow-md">
+                        <Link
+                            to="/mybooks"
+                            className="bg-[#E7E9FF] transform transition duration-300 hover:scale-105 text-[#000959] font-medium py-2 px-6 rounded-lg shadow-md"
+                        >
                             My Books
                         </Link>
-                        <button className="bg-[#E7E9FF] transform transition duration-300 hover:scale-105 text-[#000959] font-medium py-2 px-6 rounded-lg shadow-md">
+                        <Link
+                            to="/wishlist"
+                            className="bg-[#E7E9FF] transform transition duration-300 hover:scale-105 text-[#000959] font-medium py-2 px-6 rounded-lg shadow-md"
+                        >
                             Wishlist
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

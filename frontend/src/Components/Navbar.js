@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import logo from '../Assets/logo.png'
+import logo from '../Assets/logo.png';
 import { Link } from 'react-router-dom';
 
 const Navbar = () => {
@@ -20,21 +20,30 @@ const Navbar = () => {
 
       {/* Navigation Links (Desktop View) */}
       <div className="hidden md:flex space-x-4">
-        <a
-          href="#"
-          className="px-4 py-2 rounded-full bg-[#dfe2ff] text-indigo-900 font-medium"
+        <Link
+          to="/home"
+          className="px-4 py-2 rounded-full hover:bg-[#dfe2ff] hover:text-indigo-900 transition duration-300 ease-in-out"
         >
           Home
-        </a>
-        <a href="#" className="px-4 py-2 rounded-full hover:bg-[#dfe2ff] hover:text-indigo-900 transition duration-300 ease-in-out">
+        </Link>
+        <Link
+          to="/wishlist"
+          className="px-4 py-2 rounded-full hover:bg-[#dfe2ff] hover:text-indigo-900 transition duration-300 ease-in-out"
+        >
           Wishlist
-        </a>
-        <a href="#" className="px-4 py-2 rounded-full hover:bg-[#dfe2ff] hover:text-indigo-900 transition duration-300 ease-in-out">
+        </Link>
+        <Link
+          to="/mybooks"
+          className="px-4 py-2 rounded-full hover:bg-[#dfe2ff] hover:text-indigo-900 transition duration-300 ease-in-out"
+        >
           My Books
-        </a>
-        <a href="#" className="px-4 py-2 rounded-full hover:bg-[#dfe2ff] hover:text-indigo-900 transition duration-300 ease-in-out">
+        </Link>
+        <Link
+          to="/mypurchases"
+          className="px-4 py-2 rounded-full hover:bg-[#dfe2ff] hover:text-indigo-900 transition duration-300 ease-in-out"
+        >
           Purchases
-        </a>
+        </Link>
       </div>
 
       {/* Hamburger Menu (Mobile View) */}
@@ -61,30 +70,30 @@ const Navbar = () => {
         </button>
         {isOpen && (
           <div className="absolute top-16 right-0 w-48 bg-indigo-900 text-white py-2 px-4 shadow-md rounded-lg">
-            <a
-              href="#"
+            <Link
+              to="/home"
               className="block px-4 py-2 rounded-full bg-purple-200 text-indigo-900 font-medium"
             >
               Home
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/wishlist"
               className="block px-4 py-2 rounded-full hover:bg-purple-200 hover:text-indigo-900 transition duration-300 ease-in-out"
             >
               Wishlist
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/mybooks"
               className="block px-4 py-2 rounded-full hover:bg-purple-200 hover:text-indigo-900 transition duration-300 ease-in-out"
             >
               My Books
-            </a>
-            <a
-              href="#"
+            </Link>
+            <Link
+              to="/mypurchases"
               className="block px-4 py-2 rounded-full hover:bg-purple-200 hover:text-indigo-900 transition duration-300 ease-in-out"
             >
               Purchases
-            </a>
+            </Link>
           </div>
         )}
       </div>
@@ -96,7 +105,7 @@ const Navbar = () => {
           alt="Profile"
           className="h-8 w-8 rounded-full"
         />
-        <div className='ml-5 mr-5 text-xl'>Profile</div>
+        <div className="ml-5 mr-5 text-xl">Profile</div>
       </Link>
     </nav>
   );
