@@ -1,10 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const BookCard = () => {
   const imageUrl =
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s';
 
     return (
+        <Link to="/details">
         <div className="w-[250px] bg-[#000959] rounded-lg overflow-hidden shadow-[1px_10px_4px_0_rgba(0,0,0,0.36)] transform transition duration-300 hover:scale-105 ">
           {/* Image Section */}
           <img
@@ -29,6 +31,7 @@ const BookCard = () => {
             </div>
           </div>
         </div>
+        </Link>
       );
       
 };
