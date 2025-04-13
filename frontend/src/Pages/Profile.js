@@ -58,7 +58,11 @@ const Profile = () =>{
             </div>
           </div>
         </div>
-
+          <div className="flex justify-center text-[#000959]"> 
+        <button className="bg-[#000959] transform transition duration-300 hover:scale-105 text-[#E7E9FF] font-medium py-2 px-6 rounded-lg ">
+            My Books
+          </button>
+          </div>
         {/* Action Buttons */}
         
       </div>
