@@ -5,6 +5,7 @@ import Signup from './Pages/Signup';
 import Home from './Pages/Home'
 import Details from './Pages/Details';
 import Profile from './Pages/Profile';
+import MyBooks from './Pages/MyBooks';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/details" element={<Details />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/mybooks" element={<MyBooks />} />
 
         
       </Routes>

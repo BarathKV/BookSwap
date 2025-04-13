@@ -1,5 +1,6 @@
 import React from "react";
 import Navbar from "../Components/Navbar";
+import { Link } from 'react-router-dom';
 
 const Profile = () => {
     return (
@@ -69,17 +70,18 @@ const Profile = () => {
                             {/* My Books Button (Centered) */}
                             <div className="flex justify-center">
                                 <button className="bg-[#000959] transform transition duration-300 hover:scale-105 text-[#E7E9FF] font-medium py-2 px-6 rounded-lg shadow-md">
-                                    My Books
+                                   + Add Books
                                 </button>
                             </div>
                         </div>
                     </div>
 
                     {/* Bottom Action Buttons */}
+                    
                     <div className="flex flex-col sm:flex-row justify-center gap-4 mt-6">
-                        <button className="bg-[#E7E9FF] transform transition duration-300 hover:scale-105 text-[#000959] font-medium py-2 px-6 rounded-lg shadow-md">
+                        <Link to="/mybooks" className="bg-[#E7E9FF] transform transition duration-300 hover:scale-105 text-[#000959] font-medium py-2 px-6 rounded-lg shadow-md">
                             My Books
-                        </button>
+                        </Link>
                         <button className="bg-[#E7E9FF] transform transition duration-300 hover:scale-105 text-[#000959] font-medium py-2 px-6 rounded-lg shadow-md">
                             Wishlist
                         </button>
