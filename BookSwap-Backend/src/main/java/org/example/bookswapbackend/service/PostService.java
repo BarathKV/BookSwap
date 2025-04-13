@@ -109,17 +109,13 @@ public class PostService {
         }
     }
 
-    //TODO: Implement search by ISBN
-    // TODO: and location
-
     public ResponseEntity<?> getPosts(String title, String author, Post.Condition condition, Long price, Pageable pageable) {
-        Page<Post> result = postRepo.findAll(
-                Specification.where(PostSpecification.hasTitle(title))
-                        .and(PostSpecification.hasAuthor(author))
-                        .and(PostSpecification.hasCondition(condition))
-                        .and(PostSpecification.hasPriceLessThan(price)),
-                pageable
-        );
+        Specification<Post> spec = Specification.where(PostSpecification.hasTitle(title))
+                .and(PostSpecification.hasAuthor(author))
+                .and(PostSpecification.hasCondition(condition))
+                .and(PostSpecification.hasPriceLessThan(price));
+
+        Page<PostDetails> result = postRepo.findAll(spec, pageable, PostDetails.class);
         if (result.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -149,6 +145,18 @@ public class PostService {
             return ResponseEntity.notFound().build();
         } else {
             return ResponseEntity.ok(posts);
+        }
+    }
+
+    public ResponseEntity<?> getPostById(Long postId) {
+        if (postId == null) {
+            return ResponseEntity.badRequest().body("Post ID must not be null");
+        }
+        Post post = postRepo.findById(postId).orElse(null);
+        if (post == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(post);
         }
     }
 }

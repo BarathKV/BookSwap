@@ -1,7 +1,9 @@
 package org.example.bookswapbackend.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.bookswapbackend.dao.BookRepository;
 import org.example.bookswapbackend.dao.CustomerRepository;
+import org.example.bookswapbackend.dto.NewPost;
 import org.example.bookswapbackend.model.Book;
 import org.example.bookswapbackend.model.Customer;
 import org.example.bookswapbackend.model.Post;
@@ -33,23 +35,46 @@ public class PostController {
     @Autowired
     CustomerRepository custRepo;
 
+    @Autowired
+    BookRepository bookRepo;
+
     @PostMapping("/add")
-    public ResponseEntity<?> addPost(HttpServletRequest request, Book book, Post post) {
-        String token = request.getHeader("Authorization").substring(7);
+    public ResponseEntity<?> addPost(HttpServletRequest request, @RequestBody NewPost newpost) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().body("Missing or invalid Authorization header");
+        }
+
+        String token = authHeader.substring(7);
         if (!jwtUtils.validateJwtToken(token)) {
             return ResponseEntity.badRequest().body("Invalid JWT token");
         }
+
         String username = jwtUtils.getUserNameFromJwtToken(token);
         Optional<Customer> customer = custRepo.findById(username);
         if (customer.isEmpty()) {
             return ResponseEntity.badRequest().body("Customer not found");
         }
-        Book saved_book = bookService.savebook(book);
-        post.setBook(saved_book);
+
+        Optional<Book> existingBook = bookRepo.findByIsbn(newpost.getIsbn());
+        Book book = existingBook.orElseGet(() -> {
+            Book newBook = new Book();
+            newBook.setTitle(newpost.getTitle());
+            newBook.setAuthor(newpost.getAuthor());
+            newBook.setIsbn(newpost.getIsbn());
+            return bookService.savebook(newBook);
+        });
+
+        Post post = new Post();
+        post.setCondition(newpost.getCondition());
+        post.setPrice(newpost.getPrice());
+        post.setUser(customer.get());
+        post.setBook(book);
+
         return postService.addPost(post);
     }
 
-    @GetMapping("/get/{user_id}")
+    @GetMapping("/user/{user_id}")
     public ResponseEntity<?> getPostByUserId(@PathVariable String user_id,
                                              @RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "10") int size) {
@@ -111,5 +136,10 @@ public class PostController {
     ) {
         Pageable pageable = PageRequest.of(page, size);
         return postService.getPosts(title, author, condition, price, pageable);
+    }
+
+    @GetMapping("/get/{post_id}")
+    public ResponseEntity<?> getPostById(@PathVariable Long post_id) {
+        return postService.getPostById(post_id);
     }
 }

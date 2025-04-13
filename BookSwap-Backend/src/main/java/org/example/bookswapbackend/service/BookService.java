@@ -24,7 +24,7 @@ public class BookService {
         if (book.getIsbn() == null || book.getIsbn().length() != 13) {
             return ResponseEntity.badRequest().body("Book ISBN must be exactly 13 characters");
         }
-        Optional<Book> existingBook = Optional.ofNullable(bookRepo.findByIsbn(book.getIsbn()));
+        Optional<Book> existingBook = bookRepo.findByIsbn(book.getIsbn());
         if (existingBook.isPresent()) {
             return ResponseEntity.badRequest().body("Book with this ISBN already exists");
         }
