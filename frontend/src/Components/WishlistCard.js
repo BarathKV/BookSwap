@@ -40,9 +40,12 @@ const WishlistCard = () => {
                 alt="Profile"
                 className="h-6 w-6 sm:h-8 sm:w-8 rounded-full"
               />
-              <span className="font-semibold text-sm sm:text-base">
+              
+              <Link 
+              to='/seller'
+              className="font-semibold text-sm sm:text-base hover:underline">
                 Jason Brodie
-              </span>
+              </Link>
             </div>
             <span className="text-gray-500 text-xs sm:text-sm ml-2">
               Added on 19-5-25

@@ -43,7 +43,10 @@ const PostDetails = () => {
                       alt="Profile"
                       className="h-6 w-6 sm:h-8 sm:w-8 rounded-full"
                     />
-                    <h2 className="text-sm sm:text-[20px]">Iam Steve</h2>
+                    {/* Make seller's name a Link */}
+                    <Link to="/seller" className="text-sm sm:text-[20px] text-grey-500 hover:underline">
+                      Jason Broady
+                    </Link>
                   </div>
                   <p className="text-xs sm:text-base text-gray-700">19/1/25</p>
                 </div>
