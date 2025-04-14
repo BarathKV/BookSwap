@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link for navigation
 
-const WishlistCard = () => {
+const PurchasesCard = () => {
   const imageUrl =
     "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s";
 
@@ -53,16 +53,10 @@ const WishlistCard = () => {
           <p className="text-lg sm:text-xl font-bold text-gray-800">
             Rs. 899/-
           </p>
-          <button className="bg-red-500 text-white font-medium py-2 px-6 rounded-md transition duration-300 hover:scale-105 mt-2 sm:mt-0">
-            Remove
-          </button>
-          <button className="bg-[#000959] text-white font-medium py-2 px-6 rounded-md transition duration-300 hover:scale-105 mt-2 sm:mt-0">
-            Buy Book
-          </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default WishlistCard;
+export default PurchasesCard;
