@@ -2,6 +2,7 @@ HELP.md
 target/
 .mvn/
 !**/src/main/**/target/
+src/main/resources/uploads
 !**/src/test/**/target/
 
 ### STS ###

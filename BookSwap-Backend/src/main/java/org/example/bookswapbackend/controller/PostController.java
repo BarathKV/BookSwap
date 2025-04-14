@@ -69,6 +69,8 @@ public class PostController {
         post.setCondition(newpost.getCondition());
         post.setPrice(newpost.getPrice());
         post.setUser(customer.get());
+        post.setDescription(newpost.getDescription());
+        post.setImageFile(newpost.getImageFile());
         post.setBook(book);
 
         return postService.addPost(post);

@@ -40,7 +40,13 @@ public class Post {
     private Condition condition;
 
     @Column(nullable = false)
-    private Long price;
+    private Float price;
+
+    @Column(name = "description", length = 1000)
+    private String description;
+
+    @Column(name = "image_file", length = 100)
+    private String imageFile;
 
     @CreationTimestamp
     @Column(nullable = false, updatable = false)

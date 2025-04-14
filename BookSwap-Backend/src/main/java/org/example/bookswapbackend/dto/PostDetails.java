@@ -13,11 +13,12 @@ public class PostDetails {
     private String author;
     private String isbn;
     private Post.Condition condition;
-    private Long price;
+    private Float price;
     private String location;
     private LocalDateTime createdAt;
+    private String imageFile;
 
-    public PostDetails(String title, String author, String isbn, Post.Condition condition, Long price, String location, LocalDateTime createdAt) {
+    public PostDetails(String title, String author, String isbn, Post.Condition condition, Float price, String location, LocalDateTime createdAt, String imageFile) {
         this.title = title;
         this.author = author;
         this.isbn = isbn;
@@ -25,5 +26,6 @@ public class PostDetails {
         this.price = price;
         this.location = location;
         this.createdAt = createdAt;
+        this.imageFile = imageFile;
     }
 }

@@ -34,6 +34,12 @@ public class PostService {
         if (post.getPrice() <= 0) {
             return ResponseEntity.badRequest().body("Price must be greater than 0");
         }
+        if (post.getDescription() == null || post.getDescription().isEmpty()) {
+            return ResponseEntity.badRequest().body("Description must not be null or empty");
+        }
+        if (post.getImageFile() == null || post.getImageFile().isEmpty()) {
+            return ResponseEntity.badRequest().body("Image file must not be null or empty");
+        }
         Post savedPost = postRepo.save(post);
         return ResponseEntity.ok(savedPost);
     }
