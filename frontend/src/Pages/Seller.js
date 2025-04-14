@@ -48,7 +48,7 @@ const Seller = () => {
 
               {/* Contact Information */}
               <div className="mb-6">
-                <h2 className="text-xl font-bold text-center mb-4 text-gray-800">
+                <h2 className="text-xl font-bold text-center mb-4 text-gray-800 underline">
                   CONTACT INFORMATION
                 </h2>
                 <div className="space-y-3">
@@ -81,13 +81,14 @@ const Seller = () => {
         </div>
 
         {/* Books Section */}
-        <div className="w-full px-4 my-8">
+        <div className="w-full flex justify-center">
+        <div className="bg-[#E7E9FF] w-[1200px] rounded-xl px-4 my-8">
           <div className="w-full max-w-6xl mx-auto">
-            <h2 className="text-xl font-bold text-center mb-6 text-gray-100">
+            <h2 className="mt-6 text-xl font-bold text-center mb-6 text-gray-800">
               Books for Sale
             </h2>
             <div className="overflow-x-auto pb-4">
-              <div className="flex gap-10 md:gap-16 w-max px-2">
+              <div className="flex gap-10 md:gap-16 w-[1200px] px-2">
                 {Array.from({ length: numberOfBooks }).map((_, index) => (
                   <div key={index} className="w-60 md:w-72 flex-shrink-0">
                     <PostCard />
@@ -97,11 +98,12 @@ const Seller = () => {
             </div>
           </div>
         </div>
+        </div>
 
         {/* Reviews Section */}
         <div className="w-full px-4 my-8 pb-12">
           <div className="w-full max-w-4xl mx-auto">
-            <h2 className="text-xl font-bold text-center mb-6 text-gray-100">
+            <h2 className="text-xl font-bold text-center mb-6 text-gray-100 ">
               Reviews
             </h2>
             <div className="space-y-6">

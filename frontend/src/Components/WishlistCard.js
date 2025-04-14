@@ -10,12 +10,11 @@ const WishlistCard = () => {
       {/* Book Cover Image - Left Side */}
       <div className="flex items-center justify-center w-full sm:w-[30%]">
         <Link to="/details">
-          {" "}
           {/* Wrap the image with Link */}
           <img
             src={imageUrl}
             alt="Book Cover"
-            className="w-full h-auto sm:h-[250px] sm:w-auto object-cover p-4 cursor-pointer" // Add cursor-pointer for hover effect
+            className="w-full h-auto sm:h-[250px] sm:w-auto object-cover p-4 cursor-pointer"
           />
         </Link>
       </div>
@@ -24,9 +23,12 @@ const WishlistCard = () => {
       <div className="w-full sm:w-[70%] p-6 flex flex-col justify-between">
         {/* Top Section */}
         <div>
-          <h1 className="text-xl sm:text-2xl font-bold text-gray-800">
-            The Mind Of A Leader
-          </h1>
+          <Link to="/details">
+            {/* Title wrapped with Link */}
+            <h1 className="text-xl sm:text-2xl font-bold text-gray-800 hover:underline">
+              The Mind Of A Leader
+            </h1>
+          </Link>
           <p className="text-base sm:text-lg text-gray-600 mb-2">
             By Kevin Anderson
           </p>
@@ -49,16 +51,28 @@ const WishlistCard = () => {
         </div>
 
         {/* Bottom Section */}
-        <div className="flex flex-col sm:flex-row justify-between items-center mt-4">
+        <div className="flex flex-col sm:flex-row justify-end gap-[220px] items-center mt-4">
+          
+          
           <p className="text-lg sm:text-xl font-bold text-gray-800">
             Rs. 899/-
           </p>
+    
+    <div className="flex gap-2">          {/* Remove Button */}
           <button className="bg-red-500 text-white font-medium py-2 px-6 rounded-md transition duration-300 hover:scale-105 mt-2 sm:mt-0">
             Remove
           </button>
-          <button className="bg-[#000959] text-white font-medium py-2 px-6 rounded-md transition duration-300 hover:scale-105 mt-2 sm:mt-0">
-            Buy Book
-          </button>
+
+          {/* Link Buy Book button to the post details page */}
+          <Link to="/details">
+            <button className="bg-[#000959] text-white font-medium py-2 px-6 rounded-md transition duration-300 hover:scale-105 mt-2 sm:mt-0">
+              Buy Book
+            </button>
+
+          </Link>
+
+          </div>
+
         </div>
       </div>
     </div>
