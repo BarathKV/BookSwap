@@ -3,6 +3,32 @@ import PurchasesCard from "../Components/PurchasesCard";
 import Navbar from "../Components/Navbar";
 const MyPurchases = () => {
   const numberOfRows = 5;
+  const purchases = [
+    {
+      id:1,
+      title: "The Mind Of A Leader",
+      author: "Kevin Anderson",
+      price: "899",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
+      condition: "New",
+      seller: "Jason Brodie",
+      date: "19-5-25",
+
+    },
+    {
+      id:1,
+      title: "The Mind Of A Leader",
+      author: "Kevin Anderson",
+      price: "899",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
+      condition: "New",
+      seller: "Jason Brodie",
+      date: "19-5-25",
+
+    }
+  ]
 
   return (
     <div className="bg-[#eaecff]">
@@ -15,12 +41,8 @@ const MyPurchases = () => {
         {/* Container for the wishlist cards */}
         <div className="w-full max-w-4xl px-4">
           <div className="space-y-4">
-            {" "}
-            {/* Use space-y-4 for vertical spacing */}
-            {Array.from({ length: numberOfRows }).map((_, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                <PurchasesCard />
-              </div>
+            {purchases.map((purchase) => (
+              <PurchasesCard purchase={purchase} key={purchase.id} />
             ))}
           </div>
         </div>

@@ -11,6 +11,26 @@ const SearchBar = () => {
     setShowOverlay(false);
   };
 
+  const [isbn, setIsbn] = useState("");
+
+  const handleIsbnChange = (e) => {
+    const value = e.target.value;
+
+    // Allow only up to 13 characters
+    if (value.length <= 13) {
+      setIsbn(value);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log("Form Submitted");
+    if (isbn) {
+      console.log("ISBN:", isbn);
+    }
+    // Add your submit logic here
+  };
+
   return (
     <>
       {/* Main Search Section */}
@@ -62,7 +82,9 @@ const SearchBar = () => {
               &times;
             </button>
 
-            <h2 className="text-xl font-semibold mb-6 text-center">Search for a Book</h2>
+            <h2 className="text-xl font-semibold mb-6 text-center">
+              Search for a Book
+            </h2>
 
             <form className="space-y-4">
               <div>
@@ -87,18 +109,25 @@ const SearchBar = () => {
               </div>
               <div>
                 <label className="block mb-1 text-sm font-medium text-gray-700">
-                  ISBN
+                  ISBN (Optional)
                 </label>
                 <input
                   type="text"
+                  value={isbn}
+                  onChange={handleIsbnChange}
                   className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="e.g. 9780061122415"
                 />
+                {isbn.length > 0 && isbn.length < 13 && (
+                  <p className="text-red-500 text-sm mt-1">
+                    ISBN must be exactly 13 characters if provided.
+                  </p>
+                )}
               </div>
 
               <button
                 type="submit"
-                className="w-full mt-4 bg-[#000959]  text-white font-semibold py-2 px-4 rounded-lg transition">
+                className="w-full mt-4 bg-[#000959] text-white font-semibold py-2 px-4 rounded-lg transition">
                 Search
               </button>
             </form>

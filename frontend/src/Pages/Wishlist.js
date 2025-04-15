@@ -5,6 +5,32 @@ import Navbar from "../Components/Navbar";
 const Wishlist = () => {
   // Number of rows you want (change 5 to your desired number)
   const numberOfRows = 5;
+  const posts = [
+    {
+      id:1,
+      title: "The Mind Of A Leader",
+      author: "Kevin Anderson",
+      price: "899",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
+      condition: "New",
+      seller: "Jason Brodie",
+      date: "19-5-25",
+
+    },
+    {
+      id:1,
+      title: "The Mind Of A Leader",
+      author: "Kevin Anderson",
+      price: "899",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
+      condition: "New",
+      seller: "Jason Brodie",
+      date: "19-5-25",
+
+    }
+  ]
 
   return (
     <div className="bg-[#eaecff]">
@@ -18,10 +44,9 @@ const Wishlist = () => {
         <div className="w-full max-w-4xl px-4">
           <div className="space-y-4">
             {" "}
-            {/* Use space-y-4 for vertical spacing */}
-            {Array.from({ length: numberOfRows }).map((_, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                <WishlistCard />
+            {posts.map((post) => (
+              <div key={post.id} className="bg-white rounded-lg shadow-md p-4">
+                <WishlistCard post={post} />
               </div>
             ))}
           </div>
