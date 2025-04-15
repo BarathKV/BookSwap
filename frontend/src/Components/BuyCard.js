@@ -18,8 +18,8 @@ const BuyCard = ({ onClose }) => {
         <h2 className="text-xl font-semibold mb-4 text-center text-[#000959]">Complete Purchase</h2>
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           <div className="flex items-center gap-2">
-            <label className="text-sm font-medium text-gray-700">Qty:</label>
-            <input
+            <label className="text-sm font-medium text-gray-700">Review:</label>
+            {/* <input
               type="number"
               min="1"
               max="5"
@@ -27,7 +27,7 @@ const BuyCard = ({ onClose }) => {
               onChange={(e) => setQuantity(e.target.value)}
               className="border border-gray-300 rounded px-3 py-1 w-16 focus:outline-none focus:ring-2 focus:ring-[#000959]"
               required
-            />
+            /> */}
             <input
               type="text"
               placeholder="Write a review..."

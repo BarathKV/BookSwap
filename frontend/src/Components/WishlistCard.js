@@ -1,13 +1,25 @@
-import React from "react";
-import { Link } from "react-router-dom"; // Import Link for navigation
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import BuyCard from "../Components/BuyCard";
 
-const WishlistCard = ({ post }) => {
+import useBuyBook from "../hooks/useBuyBook";
+
+const WishlistCard = ({ post, onRemove }) => {
+  const [showBuyCard, setShowBuyCard] = useState(false);
+
+  const { buyBook, loading: buyLoading, completed: buyCompleted } = useBuyBook();
+
+  const handleBuyClick = () => setShowBuyCard(true);
+  const handleBuyConfirm = async () => {
+    await buyBook(post.post_id);
+    setShowBuyCard(false);
+  };
+
   return (
     <div className="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col sm:flex-row h-auto">
-      {/* Book Cover Image - Left Side */}
+      {/* Book Cover Image */}
       <div className="flex items-center justify-center w-full sm:w-[30%]">
-        <Link to="/details">
-          {/* Wrap the image with Link */}
+        <Link to={`/details/${post.post_id}`}>
           <img
             src={post.imageUrl}
             alt="Book Cover"
@@ -16,12 +28,11 @@ const WishlistCard = ({ post }) => {
         </Link>
       </div>
 
-      {/* Book Details - Right Side */}
+      {/* Book Details */}
       <div className="w-full sm:w-[70%] p-6 flex flex-col justify-between">
-        {/* Top Section */}
+        {/* Top Info */}
         <div>
-          <Link to="/details">
-            {/* Title wrapped with Link */}
+          <Link to={`/details/${post.post_id}`}>
             <h1 className="text-xl sm:text-2xl font-bold text-gray-800 hover:underline">
               {post.title}
             </h1>
@@ -39,7 +50,7 @@ const WishlistCard = ({ post }) => {
               />
 
               <Link
-                to="/seller"
+                to={`/seller/${post.seller}`}
                 className="font-semibold text-sm sm:text-base hover:underline">
                 {post.seller}
               </Link>
@@ -50,25 +61,31 @@ const WishlistCard = ({ post }) => {
           </div>
         </div>
 
-        {/* Bottom Section */}
+        {/* Bottom Info */}
         <div className="flex flex-col sm:flex-row justify-end gap-[220px] items-center mt-4">
           <p className="text-lg sm:text-xl font-bold text-gray-800">
             Rs. {post.price}/-
           </p>
 
           <div className="flex gap-2">
-            {" "}
-            {/* Remove Button */}
-            <button className="bg-red-500 text-white font-medium py-2 px-6 rounded-md transition duration-300 hover:scale-105 mt-2 sm:mt-0">
+            <button
+              onClick={() => onRemove(post.id)}
+              className="bg-red-500 text-white font-medium py-2 px-6 rounded-md transition duration-300 hover:scale-105 mt-2 sm:mt-0">
               Remove
             </button>
-            {/* Link Buy Book button to the post details page */}
-            <Link to="/details">
-              <button className="bg-[#000959] text-white font-medium py-2 px-6 rounded-md transition duration-300 hover:scale-105 mt-2 sm:mt-0">
-                Buy Book
-              </button>
-            </Link>
+
+            <button
+              onClick={handleBuyClick}
+              className="bg-[#000959] text-white font-medium py-2 px-6 rounded-md transition duration-300 hover:scale-105 mt-2 sm:mt-0">
+              {buyLoading ? "Processing..." : "Buy"}
+            </button>
           </div>
+          {showBuyCard && (
+            <BuyCard
+              onClose={() => setShowBuyCard(false)}
+              onConfirm={handleBuyConfirm}
+            />
+          )}
         </div>
       </div>
     </div>

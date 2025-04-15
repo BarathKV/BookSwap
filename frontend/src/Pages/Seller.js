@@ -2,15 +2,90 @@ import React from "react";
 import PostCard from "../Components/PostCard";
 import Navbar from "../Components/Navbar";
 import ReviewCard from "../Components/ReviewCard";
+import { useParams } from "react-router-dom";
+import useFetchProfile from "../hooks/useFetchProfile.js";
+import useUserPosts from "../hooks/useUserPosts.js";
+import useSellerReview from "../hooks/useSellerReviews.js"
 
 const Seller = () => {
-  // Number of books and reviews
-  const numberOfBooks = 8;
-  const numberOfReviews = 5;
+  const { sellername } = useParams();
+  //TODO : replace with actual API call to fetch seller profile
+  // const { profile, loading: loadingProfile } = useFetchProfile(sellername);
+  // const { posts, loading: loadingPosts } = useUserPosts(sellername);
+  // const { reviews, loading: loadingReviews } = useSellerReview(sellername);
+
+  const profile  = {
+    username: "John Doe",
+    location: "New York",
+    email: "test@abc.com",
+    userType: "User",
+  }
+  const loadingProfile = false;
+  const loadingPosts = false
+
+  const posts = [
+    {
+      id: 1,
+      title: "Boys tiger heart",
+      author: "Linda Coggin",
+      price: "899",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
+      condition: "New",
+    },
+    {
+      id: 2,
+      title: "Boys tiger heart",
+      author: "Linda Coggin",
+      price: "899",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
+      condition: "New",
+    },
+    {
+      id: 3,
+      title: "Boys tiger heart",
+      author: "Linda Coggin",
+      price: "899",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
+      condition: "New",
+    },
+    {
+      id: 4,
+      title: "Boys tiger heart",
+      author: "Linda Coggin",
+      price: "899",
+      imageUrl:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
+      condition: "New",
+    },
+  ];
+
+  const loadingReviews = false;
+  const reviews = [
+    {
+      id: 1,
+      writer:"John Doe",
+      rating: 4,
+      reviewText: "Great seller! Fast shipping and item as described.",
+    },
+    {
+      id: 2,
+      writer:"John Doe",
+      rating: 4,
+      reviewText: "Great seller! Fast shipping and item as described.",
+    },
+    {
+      id: 3,
+      writer:"John Doe",
+      rating: 4,
+      reviewText: "Great seller! Fast shipping and item as described.",
+    }
+  ]
 
   return (
     <div className="relative min-h-screen h-full">
-      {/* Fixed Background */}
       <div
         className="fixed inset-0 -z-10"
         style={{
@@ -19,9 +94,9 @@ const Seller = () => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
           backgroundAttachment: "fixed",
-        }}></div>
+        }}
+      ></div>
 
-      {/* Scrollable Content */}
       <div className="relative">
         <Navbar />
 
@@ -29,7 +104,6 @@ const Seller = () => {
         <div className="w-full flex justify-center px-4 mt-8 md:mt-16">
           <div className="w-full max-w-2xl bg-[#E7E9FF] rounded-xl overflow-hidden shadow-lg">
             <div className="p-6">
-              {/* Profile Image */}
               <div className="flex justify-center mb-4">
                 <img
                   src="https://media.tenor.com/_zWYqfZdneIAAAAM/shocked-face-shocked-meme.gif"
@@ -38,40 +112,30 @@ const Seller = () => {
                 />
               </div>
 
-              {/* Name */}
               <h1 className="text-2xl md:text-3xl font-bold text-center mb-4 text-gray-800">
-                JASON BROADY
+                {loadingProfile ? "Loading..." : profile?.userType || "Unknown User"}
               </h1>
 
-              {/* Separator */}
               <hr className="border-gray-300 my-4" />
 
-              {/* Contact Information */}
               <div className="mb-6">
-                <h2 className="text-xl font-bold text-center mb-4 text-gray-800 underline">
-                  CONTACT INFORMATION
-                </h2>
                 <div className="space-y-3">
                   <div className="flex flex-col md:flex-row">
-                    <span className="text-gray-600 font-medium md:w-24">
-                      Email:
-                    </span>
+                    <span className="text-gray-600 font-medium md:w-24">Email:</span>
                     <span className="text-gray-800">
-                      richardjameswap@gmail.com
+                      {profile?.username || "Not Provided"}
                     </span>
                   </div>
                   <div className="flex flex-col md:flex-row">
-                    <span className="text-gray-600 font-medium md:w-24">
-                      Phone:
+                    <span className="text-gray-600 font-medium md:w-24">Phone:</span>
+                    <span className="text-gray-800">
+                      {profile?.email || "Not Provided"}
                     </span>
-                    <span className="text-gray-800">+1 123 456 7890</span>
                   </div>
                   <div className="flex flex-col md:flex-row">
-                    <span className="text-gray-600 font-medium md:w-24">
-                      Address:
-                    </span>
+                    <span className="text-gray-600 font-medium md:w-24">Location:</span>
                     <span className="text-gray-800">
-                      57th Cross, Richmond Circle, Church Road, London
+                      {profile?.location || "Not specified"}
                     </span>
                   </div>
                 </div>
@@ -82,22 +146,24 @@ const Seller = () => {
 
         {/* Books Section */}
         <div className="w-full flex justify-center">
-        <div className="bg-[#E7E9FF] w-[1200px] rounded-xl px-4 my-8">
-          <div className="w-full max-w-6xl mx-auto">
-            <h2 className="mt-6 text-xl font-bold text-center mb-6 text-gray-800">
-              Books for Sale
-            </h2>
-            <div className="overflow-x-auto pb-4">
-              <div className="flex gap-10 md:gap-16 w-[1200px] px-2">
-                {Array.from({ length: numberOfBooks }).map((_, index) => (
-                  <div key={index} className="w-60 md:w-72 flex-shrink-0">
-                    <PostCard />
-                  </div>
-                ))}
+          <div className="bg-[#E7E9FF] w-[1200px] rounded-xl px-4 my-8">
+            <div className="w-full max-w-6xl mx-auto">
+              <h2 className="mt-6 text-xl font-bold text-center mb-6 text-gray-800">
+                Books for Sale
+              </h2>
+              <div className="overflow-x-auto pb-4">
+                <div className="flex gap-10 md:gap-16 w-[1200px] px-2">
+                  {loadingPosts
+                    ? "Loading..."
+                    : posts.map((post, index) => (
+                        <div key={index} className="w-60 md:w-72 flex-shrink-0">
+                          <PostCard post={post} />
+                        </div>
+                      ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
         </div>
 
         {/* Reviews Section */}
@@ -107,11 +173,13 @@ const Seller = () => {
               Reviews
             </h2>
             <div className="space-y-6">
-              {Array.from({ length: numberOfReviews }).map((_, index) => (
-                <div key={index} className="flex justify-center">
-                  <ReviewCard />
-                </div>
-              ))}
+              {loadingReviews
+                ? "Loading..."
+                : reviews.map((review, index) => (
+                    <div key={index} className="flex justify-center">
+                      <ReviewCard review={review} />
+                    </div>
+                  ))}
             </div>
           </div>
         </div>
