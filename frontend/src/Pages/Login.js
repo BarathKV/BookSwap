@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin.js";
 
 const Login = () => {
-  const { loading, error, userData, LoginUser } = useLogin();
+  const { loading, error, LoginUser } = useLogin();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -11,18 +11,27 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    console.log("Logging in with:", username, password);
 
     try {
-      await LoginUser( username, password );
+      const userData = await LoginUser( username, password );
       console.log("User data:", userData);
-      if (userData !== null) {
+      if (userData && userData.token) {
+        localStorage.setItem("token", userData.token);
         navigate("/home");
+      } else {
+        console.error("Login failed: Invalid token or response");
       }
     } catch (err) {
       console.error("Login error:", err);
     }
   };
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    console.log("Token from localStorage:", token);
+  }, []);
+  
   return (
     <div
       className="min-h-screen bg-gray-100 flex items-center justify-center"

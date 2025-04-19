@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axiosInstance from "../axiosInstance.js";
 
 const useAddFavorite = () => {
   const [loading, setLoading] = useState(false);
@@ -8,9 +9,14 @@ const useAddFavorite = () => {
     try {
       setLoading(true);
       setSuccess(false);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      //TODO: Replace with actual API call to add to wishlist
+      const response = axiosInstance.post(`/fav/add?postId=${postId}`,null, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       setSuccess(true);
+      console.log("Added to wishlist:", response.data);
     } catch (error) {
       console.error("Failed to add to wishlist:", error);
     } finally {

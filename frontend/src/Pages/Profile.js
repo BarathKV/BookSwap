@@ -60,9 +60,7 @@ const Profile = () => {
                     <span className="text-gray-600 font-medium sm:w-24">
                       Location:
                     </span>
-                    <span className="text-gray-800 sm:ml-4">
-                      New York, USA
-                    </span>
+                    <span className="text-gray-800 sm:ml-4">New York, USA</span>
                   </div>
                 </div>
               </div>
@@ -76,13 +74,15 @@ const Profile = () => {
                 </Link>
                 <Link
                   to="/login"
+                  onClick={() => {
+                    localStorage.removeItem("token");
+                  }}
                   className="bg-red-500 transform transition duration-300 hover:scale-105 text-white font-medium py-2 px-6 rounded-lg shadow-md inline-block text-center">
                   Logout
                 </Link>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
