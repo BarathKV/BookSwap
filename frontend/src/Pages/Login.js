@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import useLogin from "../hooks/useLogin.js";
 
 const Login = () => {
-  const { loading, error, success, loginUser } = useLogin();
+  const { loading, error, userData, LoginUser } = useLogin();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -13,12 +13,10 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      await loginUser({ username, password });
-
-      if (success) {
-        setUsername("");
-        setPassword("");
-        navigate("/");
+      await LoginUser( username, password );
+      console.log("User data:", userData);
+      if (userData !== null) {
+        navigate("/home");
       }
     } catch (err) {
       console.error("Login error:", err);

@@ -37,7 +37,7 @@ function App() {
         <Route path="/addpost" element={<AddPost />} />
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/mypurchases" element={<MyPurchases />} />
-        <Route path="/seller/:seller" element={<Seller />} />        
+        <Route path="/seller/:seller" element={<Seller />} />   
       </Routes>
     </Router>
   );
