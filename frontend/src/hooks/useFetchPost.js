@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axiosInstance from "../axiosInstance.js"; // Adjust path to your axiosInstance file
 
 const useFetchPost = (postId) => {
   const [post, setPost] = useState(null);
@@ -7,32 +8,28 @@ const useFetchPost = (postId) => {
 
   useEffect(() => {
     const fetchPost = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        await new Promise((res) => setTimeout(res, 1000));
-        //TODO: Replace with actual API call to fetch post details
-        setPost({
-          imageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-          title: "The Art of React",
-          author: "Jane Doe",
-          description:
-            "This is a comprehensive guide to building modern web apps with React. Learn JSX, Hooks, Context API, and advanced patterns in a hands-on way.",
-          seller: "John Smith",
-          price: 499,
-          condition: "Like New",
+        const response = await axiosInstance.get(`/post/get/${postId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
+        setPost(response.data);
       } catch (err) {
-        setError("Failed to load post.");
+        setError(err.response?.data?.message || "An error occurred");
       } finally {
         setLoading(false);
       }
     };
 
-    if (postId) fetchPost();
+    if (postId) {
+      fetchPost();
+    }
   }, [postId]);
 
   return { post, loading, error };
 };
 
 export default useFetchPost;
-

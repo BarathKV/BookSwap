@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const PostCard = ({post}) => {
+const PostCard = ({ post }) => {
   return (
-    <Link to="/details">
+    <Link to={`/details/${post.postId}`}>
       <div className="w-[260px] bg-[#000959] rounded-lg overflow-hidden shadow-[1px_10px_4px_0_rgba(0,0,0,0.36)] transform transition duration-300 hover:scale-105 ">
         {/* Image Section */}
         <img
-          src={post.imageUrl}
+          src={`http://localhost:3300/images/${post.imageFile}`}
           alt="Book Cover"
           className="w-full h-64 object-cover"
         />
@@ -22,14 +22,14 @@ const PostCard = ({post}) => {
             </div>
 
             {/* "New" Label */}
-           
-           <div className="flex flex-col gap-1 mt-2">
-           <div className="flex justify-center items-center bg-white text-[#000959] h-6 px-3 py-1 rounded-[10px] text-[15px] font-semibold">
-              Rs.{post.price}/-
-           </div>
-            <div className="flex justify-center items-center bg-[#000959] text-white h-6 px-3 py-1 rounded-[12px] text-[15px] font-semibold">
-              {post.condition}
-            </div>
+
+            <div className="flex flex-col gap-1 mt-2">
+              <div className="flex justify-center items-center bg-white text-[#000959] h-6 px-3 py-1 rounded-[10px] text-[15px] font-semibold">
+                Rs.{post.price}/-
+              </div>
+              <div className="flex justify-center items-center bg-[#000959] text-white h-6 px-3 py-1 rounded-[12px] text-[15px] font-semibold">
+                {post.condition}
+              </div>
             </div>
           </div>
         </div>

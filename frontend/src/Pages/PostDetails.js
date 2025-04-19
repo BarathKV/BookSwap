@@ -47,7 +47,7 @@ const PostDetails = () => {
             <div className="lg:w-1/2 flex justify-center">
               <img
                 className="rounded-xl max-h-[500px] sm:max-h-[600px] w-full max-w-[300px] sm:max-w-[380px] lg:max-w-none object-cover shadow-lg"
-                src={post.imageUrl}
+                src={`http://localhost:3300/images/${post.imageFile}`}
                 alt="Book cover"
               />
             </div>
@@ -59,7 +59,7 @@ const PostDetails = () => {
                   <div className="flex justify-between items-center">
                     <div className="flex gap-3 sm:gap-4 items-center">
                       <img
-                        src="https://source.unsplash.com/random/30x30/?profile"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlWi6fx13t3nmhNDxOwxj80l8QTzZrnf2_lA&s"
                         alt="Profile"
                         className="h-6 w-6 sm:h-8 sm:w-8 rounded-full"
                       />
@@ -67,11 +67,11 @@ const PostDetails = () => {
                         {post.seller}
                       </Link>
                     </div>
-                    <p className="text-xs sm:text-base text-gray-700">19/1/25</p>
+                    <p className="text-xs sm:text-base text-gray-700">{post.createdAt}</p>
                   </div>
 
                   <div className="pt-2 sm:pt-3 text-xl sm:text-2xl font-semibold">{post.title}</div>
-                  <div className="text-sm sm:text-xl text-gray-500">By {post.author}</div>
+                  <div className="text-sm sm:text-xl text-gray-500">By {post.user.username}</div>
                   <hr className="mt-2" />
                   <div className="pt-3 text-sm overflow-y-auto h-[300px] sm:max-h-[250px]">{post.description}</div>
                 </div>

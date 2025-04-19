@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class PostDetails {
+    private Long postId;
     private String title;
     private String author;
     private String isbn;
@@ -18,7 +19,10 @@ public class PostDetails {
     private LocalDateTime createdAt;
     private String imageFile;
 
-    public PostDetails(String title, String author, String isbn, Post.Condition condition, Float price, String location, LocalDateTime createdAt, String imageFile) {
+    public PostDetails(Long postId,
+            String title, String author, String isbn, Post.Condition condition, Float price, String location,
+            LocalDateTime createdAt, String imageFile) {
+        this.postId = postId;
         this.title = title;
         this.author = author;
         this.isbn = isbn;

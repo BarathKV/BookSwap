@@ -3,36 +3,13 @@ import PostCard from "../Components/PostCard";
 import Navbar from "../Components/Navbar"; // Import the Navbar component
 import SearchBar from "../Components/SearchBar";
 
+import useFetchRecent from "../hooks/useFetchRecent"; // Import the custom hook
+
 const Home = () => {
-  const posts = [
-    {
-      id: 1,
-      title: "Boys tiger heart",
-      author: "Linda Coggin",
-      price: "899",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-      condition: "New",
-    },
-    {
-      id: 2,
-      title: "Boys tiger heart",
-      author: "Linda Coggin",
-      price: "899",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-      condition: "New",
-    },
-    {
-      id: 3,
-      title: "Boys tiger heart",
-      author: "Linda Coggin",
-      price: "899",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-      condition: "New",
-    },
-  ];
+  const { posts, loading, error } = useFetchRecent(); // Use the custom hook to fetch posts
+  if (loading) {
+    return <div>Loading...</div>; // Loading state
+  }
   return (
     <div className="bg-[#eaecff]">
       {/* Navbar Component */}

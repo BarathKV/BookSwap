@@ -86,7 +86,7 @@ const Navbar = () => {
       {/* Profile Icon */}
       <Link to="/profile" className="flex items-center">
         <img
-          src="https://source.unsplash.com/random/30x30/?profile"
+          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlWi6fx13t3nmhNDxOwxj80l8QTzZrnf2_lA&s"
           alt="Profile"
           className="h-8 w-8 rounded-full"
         />
