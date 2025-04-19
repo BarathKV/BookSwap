@@ -1,34 +1,53 @@
 import React, { useState } from "react";
 import Navbar from "../Components/Navbar";
 import useAddPost from "../hooks/useAddPost";
+import useUploadImage from "../hooks/useUploadImage";
 
 const AddPost = () => {
-  //TODO: Call the Add post API
   const { addPost, loading } = useAddPost();
+  const { uploadImage, uploading } = useUploadImage();
+
+  const [isImageUploaded, setIsImageUploaded] = useState(false);
+
 
   const [formData, setFormData] = useState({
-    name: "The Great Gatsby",
-    isbn: "XXXXXXXXX",
-    author: "Arnold",
-    description: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard du",
+    name: "",
+    isbn: "",
+    author: "",
+    description: "",
     condition: "New",
-    price: "699",
-    image: null,
+    price: "",
+    image: "", // This will store the filename
   });
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
+
   const handleChange = (e) => {
-    const { name, value, files } = e.target;
-    if (name === "image") {
-      setFormData((prev) => ({ ...prev, image: files[0] }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await addPost(formData);
+    setIsImageUploaded(false);
   };
+
+  const handleImageUpload = async () => {
+    if (!selectedFile) return;
+  
+    try {
+      const filename = await uploadImage(selectedFile);
+      setFormData((prev) => ({ ...prev, image: filename }));
+      setIsImageUploaded(true); // Mark image as uploaded
+      setIsModalOpen(false);
+      setSelectedFile(null);
+    } catch (err) {
+      alert("Image upload failed.");
+    }
+  };
+  
 
   return (
     <div
@@ -45,7 +64,6 @@ const AddPost = () => {
         </h1>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Book Name */}
           <div>
             <h2 className="text-lg font-semibold text-gray-700 mb-2">
               Book Title
@@ -59,7 +77,6 @@ const AddPost = () => {
             />
           </div>
 
-          {/* ISBN */}
           <div>
             <h2 className="text-lg font-semibold text-gray-700 mb-2">ISBN</h2>
             <input
@@ -71,7 +88,6 @@ const AddPost = () => {
             />
           </div>
 
-          {/* Author */}
           <div>
             <h2 className="text-lg font-semibold text-gray-700 mb-2">Author</h2>
             <input
@@ -83,7 +99,6 @@ const AddPost = () => {
             />
           </div>
 
-          {/* Description */}
           <div>
             <h2 className="text-lg font-semibold text-gray-700 mb-2">
               Description
@@ -96,7 +111,6 @@ const AddPost = () => {
             />
           </div>
 
-          {/* Condition */}
           <div>
             <h2 className="text-lg font-semibold text-gray-700 mb-2">
               Condition
@@ -112,7 +126,6 @@ const AddPost = () => {
             </select>
           </div>
 
-          {/* Price */}
           <div>
             <h2 className="text-lg font-semibold text-gray-700 mb-2">Price</h2>
             <input
@@ -124,23 +137,23 @@ const AddPost = () => {
             />
           </div>
 
-          {/* Image Upload */}
+          {/* Image Upload via Modal */}
           <div>
             <h2 className="text-lg font-semibold text-gray-700 mb-2">
-              Image upload
+              Image Upload
             </h2>
-            <div className="flex items-center">
-              <label className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md border border-gray-300 cursor-pointer hover:bg-gray-200">
-                Choose file
-                <input
-                  type="file"
-                  name="image"
-                  onChange={handleChange}
-                  required
-                  className="hidden"
-                />
-              </label>
-            </div>
+            <button
+              type="button"
+              onClick={() => setIsModalOpen(true)}
+              disabled={isImageUploaded}
+              className="px-4 py-2 bg-gray-100 text-gray-700 rounded-md border border-gray-300 hover:bg-gray-200">
+              Upload Image
+            </button>
+            {formData.image && (
+              <p className="text-sm text-green-600 mt-2">
+                Uploaded: {formData.image}
+              </p>
+            )}
           </div>
 
           <div className="wrapper flex justify-center items-center">
@@ -155,6 +168,37 @@ const AddPost = () => {
           </div>
         </form>
       </div>
+
+      {/* Upload Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg w-96 shadow-lg">
+            <h2 className="text-lg font-bold mb-4">Upload Book Image</h2>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                setSelectedFile(e.target.files[0]);
+                console.log("Selected file:", e.target.files[0]);
+              }}
+              className="mb-4"
+            />
+            <div className="flex justify-end space-x-4">
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className="px-4 py-2 bg-gray-300 rounded-md hover:bg-gray-400">
+                Cancel
+              </button>
+              <button
+                onClick={handleImageUpload}
+                disabled={!selectedFile || uploading}
+                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                {uploading ? "Uploading..." : "Upload"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

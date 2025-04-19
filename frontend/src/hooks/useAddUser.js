@@ -11,9 +11,11 @@ const useAddUser = () => {
     try {
       const res = await axiosInstance.post("/cust/signup", UserData);
       setResponse(res.data);
-      console.log("User created:", res.data);
+      return res.data;
     } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
+      const msg = err.response?.data?.message || "An error occurred";
+      setError(msg);
+      throw err;
     } finally {
       setLoading(false);
     }

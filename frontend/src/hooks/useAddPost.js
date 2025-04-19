@@ -1,82 +1,36 @@
 import { useState } from "react";
-import axiosInterface from "../axiosInstance";
+import axios from "axios";
 
 const useAddPost = () => {
   const [loading, setLoading] = useState(false);
-  const token = localStorage.getItem("token");
-  if (!token) {
-    console.error("No token found in local storage");
-    return { addPost: () => {}, loading: false };
-  }
+
   const addPost = async (formData) => {
     setLoading(true);
+
     try {
-      let uploadedImageFileName = "E:/SEM6/ITK.ITK.jpg";
-
-      // STEP 1: Upload image
-      if (formData.image) {
-        const uploadData = new FormData();
-        uploadData.append("file", formData.image);
-
-        const uploadResponse = await axiosInterface.post("/upload/image", {
-            ...uploadData,
-            }, {
-            headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        if (!uploadResponse.ok) {
-          throw new Error("Image upload failed");
-        }
-
-        const uploadResult = await uploadResponse.json();
-        console.log("Upload result:", uploadResult);
-        uploadedImageFileName = uploadResult.imageFile; // <- assuming backend returns this field
-      }
-
-      // STEP 2: Prepare final payload with uploaded image filename
-      const postData = {
+      // Extract only the required fields and rename "name" to "title"
+      const payload = {
         title: formData.name,
         author: formData.author,
         isbn: formData.isbn,
         condition: formData.condition.toUpperCase(),
-        price: Number(formData.price),
+        price: parseFloat(formData.price),
         description: formData.description,
-        imageFile: uploadedImageFileName,
+        imageFile: formData.image,
       };
 
-      const result = {
-        title: formData.name,
-        author: formData.author,
-        isbn: formData.isbn,
-        condition: formData.condition.toUpperCase(),
-        price: Number(formData.price),
-        description: formData.description,
-        imageFile: uploadedImageFileName,
-      };
+      const response = await axios.post("http://localhost:3300/post/add", payload, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
-      // STEP 3: Submit post
-      // const postResponse = await axiosInterfaceaxiosInterface.post("/post/add", {
-      //   ...postData,
-      // }, {
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${token}`,
-      //   },
-      // });
-
-      // if (!postResponse.ok) {
-      //   const error = await postResponse.json();
-      //   throw new Error(error.message || "Failed to submit post");
-      // }
-
-      // const result = await postResponse.json();
-      console.log("Post added:", result);
-      return result;
+      console.log("Post added:", response.data);
+      alert("Post submitted successfully!");
     } catch (error) {
-      console.error("Error:", error.message);
+      console.error("Error adding post:", error);
+      alert("Failed to submit post.");
     } finally {
       setLoading(false);
     }

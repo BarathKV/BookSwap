@@ -3,22 +3,27 @@ import { Link, useNavigate } from "react-router-dom";
 import useAddUser from "../hooks/useAddUser";
 
 const Signup = () => {
-  const { loading, error, success, registerUser } = useAddUser();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const { AddUser, loading, error } = useAddUser();
+
   const handleSignup = async (e) => {
     e.preventDefault();
-
+  
     try {
-      await registerUser({ username, password });
-
-      if (success) {
+      const data = await AddUser({ username, password });
+      console.log("User created in page:", data);
+  
+      if (data) {
         setUsername("");
         setPassword("");
-        navigate("/");
+        console.log("User created successfully:", data.token);
+        //TODO: localstore the token for signup
+        // localStorage.setItem("token", JSON.stringify(data.token));
+        navigate("/home");
       }
     } catch (err) {
       console.error("Signup error:", err);
