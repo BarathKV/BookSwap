@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import axiosInstance from "../axiosInstance";
 
-const useFetchProfile = (sellerId) => {
+const useFetchProfile = () => {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -8,14 +9,13 @@ const useFetchProfile = (sellerId) => {
     const fetchProfile = async () => {
       try {
         setLoading(true);
-        //TODO: replace with actual API call to fetch seller profile
-        await new Promise((res) => setTimeout(res, 1000));
-        profile = {
-          username: "John Doe",
-          location: "New York",
-          phone: "+123456789",
-        };
-        setProfile(profile);
+        const response = await axiosInstance.get("/cust/profile", {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        setProfile(response.data);
       } catch (error) {
         console.error("Failed to fetch profile:", error);
       } finally {
@@ -23,8 +23,8 @@ const useFetchProfile = (sellerId) => {
       }
     };
 
-    if (sellerId) fetchProfile();
-  }, [sellerId]);
+    fetchProfile();
+  }, []);
 
   return { profile, loading };
 };

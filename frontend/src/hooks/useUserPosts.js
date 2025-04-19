@@ -1,26 +1,35 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
+// import axiosInstance from "../axiosInstance";
 
-const useUserPosts = (sellerId, page = 1) => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+// const useUserPosts = () => {
+//   const [myposts, setMyPosts] = useState([]);
+//   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await fetch(`/api/posts?seller=${sellerId}&page=${page}`);
-        const data = await res.json();
-        setPosts(data.posts);
-      } catch (err) {
-        console.error("Error fetching posts:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
+//   //TODO: correct the backend for user posts
 
-    if (sellerId) fetchPosts();
-  }, [sellerId, page]);
+//   useEffect(() => {
+//     const fetchPosts = async () => {
+//       setLoading(true);
+//       try {
+//         const response = await axiosInstance.get("/posts/user", {
+//           headers: {
+//             "Content-Type": "application/json",
+//             Authorization: `Bearer ${localStorage.getItem("token")}`,
+//           },
+//         });
 
-  return { posts, loading };
-};
+//         setMyPosts(response.data); // assuming response.data is an array of posts
+//       } catch (error) {
+//         console.error("Error fetching posts:", error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
 
-export default useUserPosts;
+//     fetchPosts();
+//   }, []);
+
+//   return { myposts, loading };
+// };
+
+// export default useUserPosts;

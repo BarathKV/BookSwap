@@ -5,6 +5,7 @@ const useSellerReview = (sellerId, page = 1) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    //TODO: Call the correct API endpoint to fetch reviews for the seller
     const fetchReviews = async () => {
       try {
         const res = await fetch(`/api/reviews?seller=${sellerId}&page=${page}`);

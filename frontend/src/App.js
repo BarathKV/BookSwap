@@ -10,6 +10,7 @@ import AddPost from './Pages/AddPost';
 import Wishlist from './Pages/Wishlist';
 import MyPurchases from './Pages/MyPurchases';
 import Seller from './Pages/Seller';
+import SearchResult from './Pages/SearchResult';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/mypurchases" element={<MyPurchases />} />
         <Route path="/seller/:seller" element={<Seller />} />   
+        <Route path="/result" element={<SearchResult />} />
       </Routes>
     </Router>
   );

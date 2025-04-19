@@ -2,6 +2,8 @@ import React from "react";
 import PostCard from "../Components/PostCard";
 import Navbar from "../Components/Navbar";
 
+import useSearchFilter from "../hooks/useSearchFilter";
+
 const SearchResult = () => {
   const title = new URLSearchParams(window.location.search).get("title");
   const author = new URLSearchParams(window.location.search).get("author");
@@ -10,37 +12,22 @@ const SearchResult = () => {
   console.log("Title:", title);
   console.log("Author:", author);
   console.log("ISBN:", isbn);
-  
-  // Sample data for demonstration purposes
-  const posts = [
-    {
-      id: 1,
-      title: "Boys tiger heart",
-      author: "Linda Coggin",
-      price: "899",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-      condition: "New",
-    },
-    {
-      id: 2,
-      title: "Boys tiger heart",
-      author: "Linda Coggin",
-      price: "899",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-      condition: "New",
-    },
-    {
-      id: 3,
-      title: "Boys tiger heart",
-      author: "Linda Coggin",
-      price: "899",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-      condition: "New",
-    },
-  ];
+
+  const filters = {
+    ...(title && { title }),
+    ...(author && { author }),
+    ...(isbn && { isbn }),
+  };
+
+  const { results: posts, loading } = useSearchFilter({ filters });
+
+  if(loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader"></div>
+      </div>
+    );
+  }
   return (
     <div className="bg-[#eaecff]">
       {/* Navbar Component */}

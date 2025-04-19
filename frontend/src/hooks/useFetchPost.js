@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axiosInstance from "../axiosInstance.js"; // Adjust path to your axiosInstance file
+import axiosInstance from "../axiosInstance.js";
 
 const useFetchPost = (postId) => {
   const [post, setPost] = useState(null);
