@@ -8,6 +8,7 @@ const useAddUser = () => {
 
   const AddUser = async (UserData) => {
     setLoading(true);
+    console.log("UserData", UserData);
     try {
       const res = await axiosInstance.post("/cust/signup", UserData);
       setResponse(res.data);

@@ -133,10 +133,9 @@ const PostDetails = () => {
                     ISBN: {post.book.isbn}
                   </div>
                   <hr className="mt-2" />
-                  <div className="text-sm sm:text-xl text-gray-500">
+                  <div className="pt-3 text-sm overflow-y-auto h-[150px] sm:max-h-[250px]">
                     Description:
-                  </div>
-                  <div className="pt-3 text-sm overflow-y-auto h-[300px] sm:max-h-[250px]">
+                    <br />
                     {post.description}
                   </div>
                 </div>

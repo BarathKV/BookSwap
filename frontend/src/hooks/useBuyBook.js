@@ -5,6 +5,7 @@ const useBuyBook = () => {
   const [loading, setLoading] = useState(false);
 
   const buyBook = async (postId) => {
+    console.log("Buying book with postId:", postId);
     try {
       setLoading(true);
       const response = await axiosInstance.post(

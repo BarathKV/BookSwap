@@ -93,10 +93,10 @@ const Login = () => {
           <div className="mt-6 text-center flex flex-col items-center">
             <p className="text-gray-600 text-sm">Dont have an account?</p>
             <div className="flex space-x-2 mt-2">
-              <Link to="/signup?type=user">
+              <Link to="/signup?type=USER">
                 <button>User SignUp</button>
               </Link>
-              <Link to="/signup?type=dealer">Dealer Signup</Link>
+              <Link to="/signup?type=ADMIN">Dealer Signup</Link>
             </div>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import useAddReview from "../hooks/useAddReview";
+import useBuyBook from "../hooks/useBuyBook";
 
 const starEnum = {
   1: "ONE",
@@ -12,25 +13,29 @@ const starEnum = {
 const BuyCard = ({ onClose, postId }) => {
   const [star, setStar] = useState(1);
   const [review, setReview] = useState("");
-  const { addReview, loading } = useAddReview();
+  const [hasPurchased, setHasPurchased] = useState(false);
+  const { addReview, loading: reviewLoading } = useAddReview();
+  const { buyBook, loading: buying } = useBuyBook();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const starText = starEnum[star] || "ONE";
 
-    console.log("Star:", starText);
-    console.log("Review:", review);
-    console.log("Post ID:", postId);
     try {
+      // Step 1: Buy the book
+      await buyBook(postId);
+      setHasPurchased(true); // update state to reflect purchase
+
+      // Step 2: Add review after successful purchase
       await addReview({
         post_id: postId,
         reviewText: review,
         stars: starText,
       });
-      onClose(); // close modal after submission
+
+      onClose(); // close modal after both actions
     } catch (error) {
-      console.error("Submission failed.");
+      console.error("Failed to purchase or submit review.");
     }
   };
 
@@ -52,6 +57,7 @@ const BuyCard = ({ onClose, postId }) => {
                   className={`text-2xl ${
                     num <= star ? "text-yellow-400" : "text-gray-300"
                   } focus:outline-none`}
+                  disabled={buying || reviewLoading}
                 >
                   ★
                 </button>
@@ -65,18 +71,20 @@ const BuyCard = ({ onClose, postId }) => {
             onChange={(e) => setReview(e.target.value)}
             className="flex-1 border border-gray-300 rounded px-3 py-1 focus:outline-none focus:ring-2 focus:ring-[#000959]"
             required
+            disabled={buying || reviewLoading}
           />
           <button
             type="submit"
-            disabled={loading}
+            disabled={buying || reviewLoading}
             className="bg-[#000959] text-white rounded-full py-2 hover:scale-105 transition-transform duration-200 disabled:opacity-50"
           >
-            {loading ? "Submitting..." : "Submit"}
+            {(buying || reviewLoading) ? "Processing..." : "Submit"}
           </button>
           <button
             type="button"
             onClick={onClose}
             className="text-sm text-gray-500 hover:underline text-center"
+            disabled={buying || reviewLoading}
           >
             Cancel
           </button>

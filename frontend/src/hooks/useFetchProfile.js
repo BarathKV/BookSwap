@@ -15,6 +15,7 @@ const useFetchProfile = () => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+        console.log("Profile data:", response.data);
         setProfile(response.data);
       } catch (error) {
         console.error("Failed to fetch profile:", error);
