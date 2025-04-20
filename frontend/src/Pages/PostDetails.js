@@ -14,17 +14,20 @@ const PostDetails = () => {
   const { post_id } = useParams();
   const [showBuyCard, setShowBuyCard] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [favLoaded, setFavLoaded] = useState(false); // ✅ Added this
 
   const {
     post,
     loading: postLoading,
     error: postError,
   } = useFetchPost(post_id);
+
   const {
     addToWishlist,
     loading: wishLoading,
     success: wishSuccess,
   } = useAddFavorite();
+
   const {
     removeFromWishlist,
     loading: rmfavLoading,
@@ -32,6 +35,7 @@ const PostDetails = () => {
   } = useRmFavorite();
 
   const handleBuyClick = () => setShowBuyCard(true);
+
   const handleAddToWishlist = async () => {
     await addToWishlist(post_id);
     setIsFavorite(true);
@@ -45,19 +49,21 @@ const PostDetails = () => {
   useEffect(() => {
     const checkFavorite = async () => {
       try {
-        console.log("token: ", localStorage.getItem('token'));
         const response = await axiosInstance.get(
           `/fav/iffav?postId=${post_id}`,
           {
             headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${localStorage.getItem('token')}`,
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
-        }
+          }
         );
-        setIsFavorite(response);
+        console.log("Response from iffav: ", response.data);
+        setIsFavorite(response.data.isFavorite); // ✅ Correctly extract boolean
+        setFavLoaded(true); // ✅ Done loading
       } catch (error) {
         console.error("Error checking favorite status:", error);
+        setFavLoaded(true); // ✅ Still set true to prevent UI hang
       }
     };
 
@@ -79,13 +85,13 @@ const PostDetails = () => {
       </div>
     );
   }
-
   return (
     <div className="bg-[#eaecff] min-h-screen relative">
       <Navbar />
       <div className="py-4 sm:py-8 px-4 sm:px-8 lg:px-16">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+            {/* Image Section */}
             <div className="lg:w-1/2 flex justify-center">
               <img
                 className="rounded-xl max-h-[500px] sm:max-h-[600px] w-full max-w-[300px] sm:max-w-[380px] lg:max-w-none object-cover shadow-lg"
@@ -94,6 +100,7 @@ const PostDetails = () => {
               />
             </div>
 
+            {/* Post Info */}
             <div className="lg:w-1/2">
               <div className="flex flex-col gap-[100px] bg-white rounded-xl p-4 sm:p-8 h-full shadow-md">
                 <div className="wrapper">
@@ -106,7 +113,8 @@ const PostDetails = () => {
                       />
                       <Link
                         to="/seller"
-                        className="text-sm sm:text-[20px] text-grey-500 hover:underline">
+                        className="text-sm sm:text-[20px] text-grey-500 hover:underline"
+                      >
                         {post.seller}
                       </Link>
                     </div>
@@ -115,13 +123,19 @@ const PostDetails = () => {
                     </p>
                   </div>
 
-                  <div className="pt-2 sm:pt-3 text-xl sm:text-2xl font-semibold">
-                    {post.title}
-                  </div>
                   <div className="text-sm sm:text-xl text-gray-500">
                     By {post.user.username}
                   </div>
+                  <div className="pt-2 sm:pt-3 text-xl sm:text-2xl font-semibold">
+                    {post.book.title}
+                  </div>
+                  <div className="text-sm sm:text-xl text-gray-500">
+                    ISBN: {post.book.isbn}
+                  </div>
                   <hr className="mt-2" />
+                  <div className="text-sm sm:text-xl text-gray-500">
+                    Description:
+                  </div>
                   <div className="pt-3 text-sm overflow-y-auto h-[300px] sm:max-h-[250px]">
                     {post.description}
                   </div>
@@ -139,18 +153,22 @@ const PostDetails = () => {
             </div>
           </div>
 
+          {/* Action Buttons */}
           <div className="wrapper py-4 my-4 flex justify-center">
             <div className="flex gap-4 sm:gap-8 w-full max-w-md px-4">
               <button
                 onClick={handleBuyClick}
-                className="bg-white h-10 w-full rounded-full text-[#000959] text-sm shadow-md hover:scale-105 transition">
+                className="bg-white h-10 w-full rounded-full text-[#000959] text-sm shadow-md hover:scale-105 transition"
+              >
                 Buy
               </button>
 
-              {!isFavorite && (
+              {/* Show buttons only after favLoaded is true */}
+              {favLoaded && !isFavorite && (
                 <button
                   onClick={handleAddToWishlist}
-                  className="bg-white h-10 w-full rounded-full text-[#000959] text-sm shadow-md hover:scale-105 transition">
+                  className="bg-white h-10 w-full rounded-full text-[#000959] text-sm shadow-md hover:scale-105 transition"
+                >
                   {wishLoading
                     ? "Adding..."
                     : wishSuccess
@@ -159,21 +177,20 @@ const PostDetails = () => {
                 </button>
               )}
 
-              {isFavorite && (
+              {favLoaded && isFavorite && (
                 <button
                   onClick={handleRmFromWishlist}
-                  className="bg-white h-10 w-full rounded-full text-[#000959] text-sm shadow-md hover:scale-105 transition">
-                  Remove from Wishlist
+                  className="bg-white h-10 w-full rounded-full text-[#000959] text-sm shadow-md hover:scale-105 transition"
+                >
+                  {rmfavLoading ? "Removing..." : "Remove from Wishlist"}
                 </button>
               )}
             </div>
           </div>
 
+          {/* Buy Card */}
           {showBuyCard && (
-            <BuyCard
-              onClose={() => setShowBuyCard(false)}
-              postId={post_id}              
-            />
+            <BuyCard onClose={() => setShowBuyCard(false)} postId={post_id} />
           )}
         </div>
       </div>

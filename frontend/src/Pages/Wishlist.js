@@ -2,39 +2,24 @@ import React, { useState } from "react";
 import WishlistCard from "../Components/WishlistCard.js";
 import Navbar from "../Components/Navbar";
 import useRmFavorite from "../hooks/useRmFavorite";
+import useFetchFavorite from "../hooks/useFetchFavorite.js";
 
 const Wishlist = () => {
   const { removeFromWishlist, loading } = useRmFavorite();
+  const { purchases, loading: fetchLoading, error } = useFetchFavorite();
 
-  const [posts, setPosts] = useState([
-    {
-      id: 1,
-      title: "The Mind Of A Leader",
-      author: "Kevin Anderson",
-      price: "899",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-      condition: "New",
-      seller: "Jason Brodie",
-      date: "19-5-25",
-    },
-    {
-      id: 2,
-      title: "Atomic Habits",
-      author: "James Clear",
-      price: "499",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-      condition: "Used",
-      seller: "Anna Keller",
-      date: "18-4-25",
-    },
-  ]);
+  const [wishlistItems, setWishlistItems] = useState(purchases || []);
 
-  const handleRemove = async (postId) => {
-    const success = await removeFromWishlist(postId);
-    if (success) {
-      setPosts((prev) => prev.filter((post) => post.id !== postId));
+  React.useEffect(() => {
+    setWishlistItems(purchases);
+  }, [purchases]);
+
+  const handleRemove = async (id) => {
+    try {
+      await removeFromWishlist(id);
+      setWishlistItems((prevItems) => prevItems.filter((item) => item.id !== id));
+    } catch (err) {
+      console.error("Failed to remove from wishlist:", err);
     }
   };
 
@@ -45,13 +30,14 @@ const Wishlist = () => {
         <h1 className="text-3xl font-bold mb-8">My Wishlist</h1>
 
         <div className="w-full max-w-4xl px-4">
-          {posts.length === 0 ? (
+          {wishlistItems.length === 0 ? (
             <p className="text-center text-gray-600">Your wishlist is empty.</p>
           ) : (
             <div className="space-y-4">
-              {posts.map((post) => (
-                <div key={post.id} className="bg-white rounded-lg shadow-md p-4">
-                  <WishlistCard post={post} onRemove={handleRemove} />
+              {wishlistItems.map((fav) => (
+                console.log(fav),
+                <div key={fav.favoriteId} className="bg-white rounded-lg shadow-md p-4">
+                  <WishlistCard post={fav} onRemove={() => handleRemove(fav.post.postId)}/>
                 </div>
               ))}
             </div>

@@ -29,7 +29,7 @@ const Home = () => {
             {/* Render multiple PostCard components */}
             {/* You can replace the array with your actual data */}
             {posts.map((post) => (
-              <PostCard post={post} key={post.id} />
+              <PostCard post={post} key={post.postId} />
             ))}
           </div>
         </div>

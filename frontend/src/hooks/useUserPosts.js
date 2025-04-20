@@ -8,15 +8,16 @@ const useUserPosts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
+      console.log("Fetching posts...");
       try {
-        const response = await axiosInstance.get("/posts/user", {
+        const response = await axiosInstance.get("/post/user", {
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
-        console.log("posts response:", response.data);
-        setMyPosts(response.data);
+        console.log("posts response:", response.data.content);
+        setMyPosts(response.data.content);
       } catch (error) {
         console.error("Error fetching posts:", error);
       } finally {

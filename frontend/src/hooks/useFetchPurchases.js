@@ -10,7 +10,6 @@ const useFetchPurchases = () => {
         const fetchPurchases = async () => {
             setLoading(true);
             try {
-                console.log(localStorage.getItem('token'));
                 const response = await axiosInstance.get('/pur/purchases',
                     {
                         headers: {
@@ -19,7 +18,7 @@ const useFetchPurchases = () => {
                         },
                     }
                 );
-                setPurchases(response.data.content);
+                setPurchases(response.data);
             } catch (err) {
                 setError(err.response?.data?.message || 'An error occurred');
             } finally {

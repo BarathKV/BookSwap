@@ -9,7 +9,7 @@ const PurchasesCard = ({purchase}) => {
           {" "}
           {/* Wrap the image with Link */}
           <img
-            src={purchase.imageUrl}
+            src={`http://localhost:3300/images/${purchase.post.imageFile}`}
             alt="Book Cover"
             className="w-full h-auto sm:h-[250px] sm:w-auto object-cover p-4 cursor-pointer" // Add cursor-pointer for hover effect
           />
@@ -20,10 +20,10 @@ const PurchasesCard = ({purchase}) => {
         {/* Top Section */}
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-gray-800">
-            {purchase.title}
+            {purchase.post.book.title}
           </h1>
           <p className="text-base sm:text-lg text-gray-600 mb-2">
-            By {purchase.author}
+            By {purchase.post.book.author}
           </p>
 
           <div className="flex flex-col sm:flex-row justify-between items-center mt-4 sm:mt-0">
@@ -36,11 +36,11 @@ const PurchasesCard = ({purchase}) => {
               <Link
                 to='/seller'
                 className="font-semibold text-sm sm:text-base hover:underline">
-                {purchase.seller}
+                {purchase.post.user.username}
               </Link>
             </div>
             <span className="text-gray-500 text-xs sm:text-sm ml-2">
-              Bought on {purchase.date}
+              Bought on {new Date(purchase.purchasedAt).toLocaleDateString()}
             </span>
           </div>
         </div>
@@ -48,7 +48,7 @@ const PurchasesCard = ({purchase}) => {
         {/* Bottom Section */}
         <div className="flex flex-col sm:flex-row justify-between items-center mt-4">
           <p className="text-lg sm:text-xl font-bold text-gray-800">
-            Rs.{purchase.price}/-
+            Rs.{purchase.post.price}/-
           </p>
         </div>
       </div>

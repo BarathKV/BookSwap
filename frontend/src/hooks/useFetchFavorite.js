@@ -19,6 +19,7 @@ const useFetchFavorite = () => {
                         },
                     }
                 );
+                console.log("fetch fav",response.data.content);
                 setPurchases(response.data.content);
             } catch (err) {
                 setError(err.response?.data?.message || 'An error occurred');

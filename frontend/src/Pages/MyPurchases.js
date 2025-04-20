@@ -1,35 +1,22 @@
 import React from "react";
 import PurchasesCard from "../Components/PurchasesCard";
 import Navbar from "../Components/Navbar";
+
+import useFetchPurchases from "../hooks/useFetchPurchases";
+
 const MyPurchases = () => {
-  const numberOfRows = 5;
-  const purchases = [
-    {
-      id:1,
-      title: "The Mind Of A Leader",
-      author: "Kevin Anderson",
-      price: "899",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-      condition: "New",
-      seller: "Jason Brodie",
-      date: "19-5-25",
+  const { purchases, loading, error } = useFetchPurchases();
 
-    },
-    {
-      id:1,
-      title: "The Mind Of A Leader",
-      author: "Kevin Anderson",
-      price: "899",
-      imageUrl:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s",
-      condition: "New",
-      seller: "Jason Brodie",
-      date: "19-5-25",
-
-    }
-  ]
-
+  if (loading) {
+    return (
+      <div className="bg-[#eaecff]">
+        <Navbar />
+        <div className="flex justify-center items-center min-h-screen bg-[#eaecff]">
+          Loading...
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="bg-[#eaecff]">
       <Navbar />
@@ -42,7 +29,7 @@ const MyPurchases = () => {
         <div className="w-full max-w-4xl px-4">
           <div className="space-y-4">
             {purchases.map((purchase) => (
-              <PurchasesCard purchase={purchase} key={purchase.id} />
+              <PurchasesCard purchase={purchase} key={purchase.purchseId} />
             ))}
           </div>
         </div>
