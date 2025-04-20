@@ -1,6 +1,8 @@
 package org.example.bookswapbackend.dao;
 
 import org.example.bookswapbackend.model.Favorite;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,4 +20,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     @Query("SELECT f FROM Favorite f WHERE f.post.postId = ?1 AND f.customer.username = ?2")
     Optional<Favorite> findByPostIdAndUser(long postId, String username);
 
+    @Query("SELECT f FROM Favorite f WHERE f.customer.username = ?1")
+    Page<Favorite> findByCustomer(String username, Pageable pageable);
 }
