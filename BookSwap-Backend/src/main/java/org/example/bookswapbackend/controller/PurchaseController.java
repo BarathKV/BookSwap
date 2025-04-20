@@ -20,8 +20,20 @@ public class PurchaseController {
     JwtUtils jwtUtils;
 
     @PostMapping("/buy")
-    public ResponseEntity<?> buyBook(@RequestBody Purchase purchase) {
-        return purchaseService.buyPost(purchase);
+    public ResponseEntity<?> buyBook(HttpServletRequest request,
+                                     @RequestParam("postId") Long postId) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().body("Missing or invalid Authorization header");
+        }
+
+        String token = authHeader.substring(7);
+        if (!jwtUtils.validateJwtToken(token)) {
+            return ResponseEntity.badRequest().body("Invalid JWT token");
+        }
+
+        String username = jwtUtils.getUserNameFromJwtToken(token);
+        return purchaseService.buyPost(postId,username);
     }
 
     @GetMapping("/purchases")
@@ -33,7 +45,7 @@ public class PurchaseController {
             return ResponseEntity.badRequest().body("Invalid JWT token");
         }
         String username = jwtUtils.getUserNameFromJwtToken(token);
-        return purchaseService.getAllPurchases(username,page,size);
+        return purchaseService.getAllPurchases(username, page, size);
     }
 
 }

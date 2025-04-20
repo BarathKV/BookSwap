@@ -89,4 +89,12 @@ public class CustomerService {
         return ResponseEntity.badRequest().body(new MessageResponse("Invalid Customer"));
     }
 
+    public Customer getCustomerObjectById(String username) {
+        Optional<Customer> obj = custRepo.findById(username);
+        if (obj.isPresent()) {
+            return obj.get();
+        }
+        return null;
+    }
+
 }

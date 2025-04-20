@@ -1,6 +1,8 @@
 package org.example.bookswapbackend.service;
 
 import org.example.bookswapbackend.dao.PurchaseRepository;
+import org.example.bookswapbackend.model.Customer;
+import org.example.bookswapbackend.model.Post;
 import org.example.bookswapbackend.model.Purchase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -16,10 +18,21 @@ public class PurchaseService {
     @Autowired
     PurchaseRepository purchaseRepo;
 
-    public ResponseEntity<?> buyPost(Purchase purchase) {
-        if (purchase.getPost() == null || purchase.getUser() == null) {
-            return ResponseEntity.badRequest().body("Book and Customer must not be null");
+    @Autowired
+    PostService postService;
+
+    @Autowired
+    CustomerService customerService;
+
+    public ResponseEntity<?> buyPost(Long postId,String username) {
+        if(postId == null) {
+            return ResponseEntity.badRequest().body("Post ID must not be null");
         }
+        Post post = postService.getPostObjectById(postId);
+        Customer customer = customerService.getCustomerObjectById(username);
+        Purchase purchase = new Purchase();
+        purchase.setPost(post);
+        purchase.setUser(customer);
         Purchase savedPurchase = purchaseRepo.save(purchase);
         return ResponseEntity.ok(savedPurchase);
     }

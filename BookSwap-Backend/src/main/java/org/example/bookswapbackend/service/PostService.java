@@ -165,4 +165,16 @@ public class PostService {
             return ResponseEntity.ok(post);
         }
     }
+
+    public Post getPostObjectById(Long postId) {
+        if (postId == null) {
+            return null;
+        }
+        Post post = postRepo.findById(postId).orElse(null);
+        if (post == null) {
+            return null;
+        } else {
+            return post;
+        }
+    }
 }
