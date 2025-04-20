@@ -14,7 +14,7 @@ const Login = () => {
     console.log("Logging in with:", username, password);
 
     try {
-      const userData = await LoginUser( username, password );
+      const userData = await LoginUser(username, password);
       console.log("User data:", userData);
       if (userData && userData.token) {
         localStorage.setItem("token", userData.token);
@@ -31,7 +31,7 @@ const Login = () => {
     const token = localStorage.getItem("token");
     console.log("Token from localStorage:", token);
   }, []);
-  
+
   return (
     <div
       className="min-h-screen bg-gray-100 flex items-center justify-center"
@@ -90,13 +90,14 @@ const Login = () => {
             </div>
           </form>
 
-          <div className="mt-6 text-center">
-            <p className="text-gray-600 text-sm">
-              Don't have an account?{" "}
-              <Link to="/signup" className="text-blue-600 hover:underline">
-                Signup
+          <div className="mt-6 text-center flex flex-col items-center">
+            <p className="text-gray-600 text-sm">Dont have an account?</p>
+            <div className="flex space-x-2 mt-2">
+              <Link to="/signup?type=user">
+                <button>User SignUp</button>
               </Link>
-            </p>
+              <Link to="/signup?type=dealer">Dealer Signup</Link>
+            </div>
           </div>
         </div>
       </div>

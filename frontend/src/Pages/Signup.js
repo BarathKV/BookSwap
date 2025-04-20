@@ -1,27 +1,32 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import useAddUser from "../hooks/useAddUser";
+
 
 const Signup = () => {
   const navigate = useNavigate();
+  const userType = useParams('type');
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [location, setLocation] = useState("");
 
   const { AddUser, loading, error } = useAddUser();
 
   const handleSignup = async (e) => {
+    //TODO: add usertype and other details to addpost api call
     e.preventDefault();
-  
+
     try {
       const data = await AddUser({ username, password });
       console.log("User created in page:", data);
-  
+
       if (data) {
         setUsername("");
         setPassword("");
         console.log("User created successfully:", data.token);
-        //TODO: localstore the token for signup
         // localStorage.setItem("token", JSON.stringify(data.token));
         navigate("/home");
       }
@@ -76,6 +81,48 @@ const Signup = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 placeholder="••••••••"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 text-sm font-medium mb-1">
+                Email
+              </label>
+              <input
+                type="text"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter username"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 text-sm font-medium mb-1">
+                Phone
+              </label>
+              <input
+                type="text"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter username"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-gray-700 text-sm font-medium mb-1">
+                Location
+              </label>
+              <input
+                type="text"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter username"
                 required
               />
             </div>

@@ -31,13 +31,7 @@ const PostDetails = () => {
     error: rmfavError,
   } = useRmFavorite();
 
-  const { buyBook, loading: buyLoading } = useBuyBook();
-
   const handleBuyClick = () => setShowBuyCard(true);
-  const handleBuyConfirm = async () => {
-    await buyBook(post_id);
-    setShowBuyCard(false);
-  };
   const handleAddToWishlist = async () => {
     await addToWishlist(post_id);
     setIsFavorite(true);
@@ -150,7 +144,7 @@ const PostDetails = () => {
               <button
                 onClick={handleBuyClick}
                 className="bg-white h-10 w-full rounded-full text-[#000959] text-sm shadow-md hover:scale-105 transition">
-                {buyLoading ? "Processing..." : "Buy"}
+                Buy
               </button>
 
               {!isFavorite && (
@@ -178,7 +172,7 @@ const PostDetails = () => {
           {showBuyCard && (
             <BuyCard
               onClose={() => setShowBuyCard(false)}
-              onConfirm={handleBuyConfirm}
+              postId={post_id}              
             />
           )}
         </div>

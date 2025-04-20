@@ -1,16 +1,23 @@
 import { useState } from "react";
+import axiosInstance from "../axiosInstance.js";
 
 const useBuyBook = () => {
   const [loading, setLoading] = useState(false);
-  const [completed, setCompleted] = useState(false);
 
   const buyBook = async (postId) => {
     try {
       setLoading(true);
-      setCompleted(false);
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-      //TODO: replace with actual API call to buy book
-      setCompleted(true);
+      const response = await axiosInstance.post(
+        `/pur/buy?postId=${postId}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      console.log("Book purchased successfully:", response.data);
     } catch (error) {
       console.error("Failed to buy book:", error);
     } finally {
@@ -18,7 +25,7 @@ const useBuyBook = () => {
     }
   };
 
-  return { buyBook, loading, completed };
+  return { buyBook, loading };
 };
 
 export default useBuyBook;

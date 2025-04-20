@@ -1,25 +1,33 @@
 import { useEffect, useState } from "react";
 
-const useSellerReview = (sellerId, page = 1) => {
+import axiosInstance from "../axiosInstance";
+
+const useSellerReview = (sellerId) => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    //TODO: Call the correct API endpoint to fetch reviews for the seller
     const fetchReviews = async () => {
-      try {
-        const res = await fetch(`/api/reviews?seller=${sellerId}&page=${page}`);
-        const data = await res.json();
-        setReviews(data.reviews);
-      } catch (err) {
-        console.error("Error fetching reviews:", err);
+      setLoading(true);
+      try{
+        const response  = await axiosInstance.get(`/review/cust?customerId=${sellerId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        console.log("review response:", response.data)
+        setReviews(response.data);
+      }
+      catch (error) {
+        console.error("Error fetching reviews:", error);
       } finally {
         setLoading(false);
       }
     };
 
     if (sellerId) fetchReviews();
-  }, [sellerId, page]);
+  }, [sellerId]);
 
   return { reviews, loading };
 };
