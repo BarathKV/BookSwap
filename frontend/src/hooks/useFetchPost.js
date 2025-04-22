@@ -16,6 +16,7 @@ const useFetchPost = (postId) => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         });
+        console.log("Response from get post: ", response.data);
         setPost(response.data);
       } catch (err) {
         setError(err.response?.data?.message || "An error occurred");

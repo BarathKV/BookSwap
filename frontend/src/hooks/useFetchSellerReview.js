@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 
 import axiosInstance from "../axiosInstance";
 
-const useSellerReview = (sellerId) => {
+const useFetchSellerReview = (sellerId) => {
   const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [reviewloading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchReviews = async () => {
@@ -16,8 +16,8 @@ const useSellerReview = (sellerId) => {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
         })
-        console.log("review response:", response.data)
-        setReviews(response.data);
+        console.log("review response:", response.data.content)
+        setReviews(response.data.content);
       }
       catch (error) {
         console.error("Error fetching reviews:", error);
@@ -29,7 +29,7 @@ const useSellerReview = (sellerId) => {
     if (sellerId) fetchReviews();
   }, [sellerId]);
 
-  return { reviews, loading };
+  return { reviews, reviewloading };
 };
 
-export default useSellerReview;
+export default useFetchSellerReview;

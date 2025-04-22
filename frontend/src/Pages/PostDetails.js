@@ -112,10 +112,10 @@ const PostDetails = () => {
                         className="h-6 w-6 sm:h-8 sm:w-8 rounded-full"
                       />
                       <Link
-                        to="/seller"
+                        to={`/seller/${post.user.username}`}
                         className="text-sm sm:text-[20px] text-grey-500 hover:underline"
                       >
-                        {post.seller}
+                        {post.user.username}
                       </Link>
                     </div>
                     <p className="text-xs sm:text-base text-gray-700">
@@ -124,7 +124,7 @@ const PostDetails = () => {
                   </div>
 
                   <div className="text-sm sm:text-xl text-gray-500">
-                    By {post.user.username}
+                    By {post.book.author}
                   </div>
                   <div className="pt-2 sm:pt-3 text-xl sm:text-2xl font-semibold">
                     {post.book.title}
