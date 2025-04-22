@@ -177,4 +177,17 @@ public class PostService {
             return post;
         }
     }
+
+    public ResponseEntity<?> getAllPosts(String userId, int page, int size) {
+        if (userId == null || userId.isEmpty()) {
+            return ResponseEntity.badRequest().body("User ID must not be null or empty");
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<PostDetails> posts = postRepo.findAllByUserId(userId, pageable);
+        if (posts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(posts);
+        }
+    }
 }

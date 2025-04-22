@@ -94,6 +94,13 @@ public class PostController {
         return postService.getPostByUserId(username,page, size);
     }
 
+    @GetMapping("/get")
+    public ResponseEntity<?> getAllPosts(@RequestParam String user_id,
+                                         @RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "10") int size) {
+        return postService.getAllPosts(user_id,page, size);
+    }
+
     @GetMapping("/recent")
     public ResponseEntity<?> getRecentPosts(@RequestParam(defaultValue = "0") int page,
                                             @RequestParam(defaultValue = "10") int size) {
