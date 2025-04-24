@@ -165,4 +165,29 @@ public class PostService {
             return ResponseEntity.ok(post);
         }
     }
+
+    public Post getPostObjectById(Long postId) {
+        if (postId == null) {
+            return null;
+        }
+        Post post = postRepo.findById(postId).orElse(null);
+        if (post == null) {
+            return null;
+        } else {
+            return post;
+        }
+    }
+
+    public ResponseEntity<?> getAllPosts(String userId, int page, int size) {
+        if (userId == null || userId.isEmpty()) {
+            return ResponseEntity.badRequest().body("User ID must not be null or empty");
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<PostDetails> posts = postRepo.findAllByUserId(userId, pageable);
+        if (posts.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(posts);
+        }
+    }
 }
