@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
@@ -16,6 +17,6 @@ public interface PurchaseRepository extends JpaRepository<Purchase, Long> {
     @Query("SELECT p FROM Purchase p WHERE p.user.username = ?1")
     List<Purchase> findByCustomerUsername(String customer, Pageable pageable);
 
-    @Query("SELECT p FROM Purchase p WHERE p.post.postId = ?1 AND p.user.username = ?2")
-    Purchase findByBuyerAndPost(Post post, Customer user);
+    @Query("SELECT p FROM Purchase p WHERE p.post = ?1 AND p.user = ?2")
+    Optional<Purchase> findByBuyerAndPost(Post post, Customer user);
 }

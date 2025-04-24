@@ -54,4 +54,9 @@ public class CustomerController {
         }
         return ResponseEntity.badRequest().body("Invalid JWT token");
     }
+
+    @GetMapping("/getprofile/{username}")
+    public ResponseEntity<?> getCustomerDetailsByUsername(@PathVariable("username") String username) {
+        return custService.getCustomerDetails(username);
+    }
 }

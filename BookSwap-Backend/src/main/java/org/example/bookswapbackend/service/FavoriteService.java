@@ -8,6 +8,10 @@ import org.example.bookswapbackend.model.Favorite;
 import org.example.bookswapbackend.model.Post;
 import org.example.bookswapbackend.security.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -89,5 +93,18 @@ public class FavoriteService {
         }
         boolean isFavorite = favRepo.existsByCustomerAndPost(postId, username);
         return ResponseEntity.ok(isFavorite);
+    }
+
+    public ResponseEntity<?> getFavorites(String username, int page, int size) {
+        if (username == null || username.isEmpty()) {
+            return ResponseEntity.badRequest().body("Username not found in token");
+        }
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "addedAt"));
+        Page<Favorite> favorites = favRepo.findByCustomer(username, pageable);
+        if(favorites.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(favorites);
+        }
     }
 }

@@ -76,11 +76,29 @@ public class PostController {
         return postService.addPost(post);
     }
 
-    @GetMapping("/user/{user_id}")
-    public ResponseEntity<?> getPostByUserId(@PathVariable String user_id,
+    @GetMapping("/user")
+    public ResponseEntity<?> getPostByUserId( HttpServletRequest request,
                                              @RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "10") int size) {
-        return postService.getPostByUserId(user_id, page, size);
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.badRequest().body("Missing or invalid Authorization header");
+        }
+
+        String token = authHeader.substring(7);
+        if (!jwtUtils.validateJwtToken(token)) {
+            return ResponseEntity.badRequest().body("Invalid JWT token");
+        }
+
+        String username = jwtUtils.getUserNameFromJwtToken(token);
+        return postService.getPostByUserId(username,page, size);
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<?> getAllPosts(@RequestParam String user_id,
+                                         @RequestParam(defaultValue = "0") int page,
+                                         @RequestParam(defaultValue = "10") int size) {
+        return postService.getAllPosts(user_id,page, size);
     }
 
     @GetMapping("/recent")

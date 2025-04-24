@@ -36,11 +36,11 @@ public class ReviewService {
         if (review.getStars() == null) {
             return ResponseEntity.badRequest().body("Stars must not be null");
         }
-        Optional<Purchase> purchased = Optional.ofNullable(purchaseRepo.findByBuyerAndPost(review.getPost(), review.getUser()));
+        Optional<Purchase> purchased = purchaseRepo.findByBuyerAndPost(review.getPost(), review.getWriter());
         if (purchased.isEmpty()) {
-            return ResponseEntity.badRequest().body("User has not purchased this book");
+            return ResponseEntity.badRequest().body("User"+review.getWriter().getUsername()+" has not purchased post" + review.getPost().getPostId());
         }
-        Optional<Review> existingReview = Optional.ofNullable(reviewRepo.findByBookAndCustomer(review.getPost(), review.getUser()));
+        Optional<Review> existingReview = reviewRepo.findByBookAndCustomer(review.getPost(), review.getUser());
         if (existingReview.isPresent()) {
             return ResponseEntity.badRequest().body("Review already exists");
         }
