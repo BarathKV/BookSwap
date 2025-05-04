@@ -1,9 +1,22 @@
 import React from "react";
 import PurchasesCard from "../Components/PurchasesCard";
 import Navbar from "../Components/Navbar";
-const MyPurchases = () => {
-  const numberOfRows = 5;
 
+import useFetchPurchases from "../hooks/useFetchPurchases";
+
+const MyPurchases = () => {
+  const { purchases, loading, error } = useFetchPurchases();
+
+  if (loading) {
+    return (
+      <div className="bg-[#eaecff]">
+        <Navbar />
+        <div className="flex justify-center items-center min-h-screen bg-[#eaecff]">
+          Loading...
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="bg-[#eaecff]">
       <Navbar />
@@ -15,12 +28,8 @@ const MyPurchases = () => {
         {/* Container for the wishlist cards */}
         <div className="w-full max-w-4xl px-4">
           <div className="space-y-4">
-            {" "}
-            {/* Use space-y-4 for vertical spacing */}
-            {Array.from({ length: numberOfRows }).map((_, index) => (
-              <div key={index} className="bg-white rounded-lg shadow-md p-4">
-                <PurchasesCard />
-              </div>
+            {purchases.map((purchase) => (
+              <PurchasesCard purchase={purchase} key={purchase.purchseId} />
             ))}
           </div>
         </div>

@@ -1,23 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom"; // Import Link for navigation
 
-const PurchasesCard = () => {
-  const imageUrl =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQsfxrcUtlaLqSTTpA7N9cWKIopvRNtXngM2A&s";
-
+const PurchasesCard = ({purchase}) => {
   return (
     <div className="w-full max-w-4xl bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 flex flex-col sm:flex-row h-auto">
       {/* Book Cover Image - Left Side */}
       <div className="flex items-center justify-center w-full sm:w-[30%]">
-        <Link to="/details">
           {" "}
           {/* Wrap the image with Link */}
           <img
-            src={imageUrl}
+            src={`http://localhost:3300/images/${purchase.post.imageFile}`}
             alt="Book Cover"
             className="w-full h-auto sm:h-[250px] sm:w-auto object-cover p-4 cursor-pointer" // Add cursor-pointer for hover effect
           />
-        </Link>
       </div>
 
       {/* Book Details - Right Side */}
@@ -25,10 +20,10 @@ const PurchasesCard = () => {
         {/* Top Section */}
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-gray-800">
-            The Mind Of A Leader
+            {purchase.post.book.title}
           </h1>
           <p className="text-base sm:text-lg text-gray-600 mb-2">
-            By Kevin Anderson
+            By {purchase.post.book.author}
           </p>
 
           <div className="flex flex-col sm:flex-row justify-between items-center mt-4 sm:mt-0">
@@ -38,12 +33,14 @@ const PurchasesCard = () => {
                 alt="Profile"
                 className="h-6 w-6 sm:h-8 sm:w-8 rounded-full"
               />
-              <span className="font-semibold text-sm sm:text-base">
-                Jason Brodie
-              </span>
+              <Link
+                to='/seller'
+                className="font-semibold text-sm sm:text-base hover:underline">
+                {purchase.post.user.username}
+              </Link>
             </div>
             <span className="text-gray-500 text-xs sm:text-sm ml-2">
-              Added on 19-5-25
+              Bought on {new Date(purchase.purchasedAt).toLocaleDateString()}
             </span>
           </div>
         </div>
@@ -51,7 +48,7 @@ const PurchasesCard = () => {
         {/* Bottom Section */}
         <div className="flex flex-col sm:flex-row justify-between items-center mt-4">
           <p className="text-lg sm:text-xl font-bold text-gray-800">
-            Rs. 899/-
+            Rs.{purchase.post.price}/-
           </p>
         </div>
       </div>

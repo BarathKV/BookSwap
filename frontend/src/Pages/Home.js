@@ -3,7 +3,13 @@ import PostCard from "../Components/PostCard";
 import Navbar from "../Components/Navbar"; // Import the Navbar component
 import SearchBar from "../Components/SearchBar";
 
+import useFetchRecent from "../hooks/useFetchRecent"; // Import the custom hook
+
 const Home = () => {
+  const { posts, loading, error } = useFetchRecent(); // Use the custom hook to fetch posts
+  if (loading) {
+    return <div>Loading...</div>; // Loading state
+  }
   return (
     <div className="bg-[#eaecff]">
       {/* Navbar Component */}
@@ -21,8 +27,9 @@ const Home = () => {
         <div className="py-[20px] w-full flex justify-center">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 p-4">
             {/* Render multiple PostCard components */}
-            {Array.from({ length: 8 }).map((_, index) => (
-              <PostCard key={index} />
+            {/* You can replace the array with your actual data */}
+            {posts.map((post) => (
+              <PostCard post={post} key={post.postId} />
             ))}
           </div>
         </div>
